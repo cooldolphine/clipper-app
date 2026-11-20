@@ -67,16 +67,13 @@ a{color:var(--accent)}
 </style>
 </head>
 <body>
-
 <main id="tab-run">
   <h1>Clip Desk</h1>
   <p class="lead">Tell the clipper what to cut. It runs on GitHub; you can close this page and come back.</p>
-
   <div class="seg" role="group" aria-label="What to clip">
     <button type="button" id="m-links" aria-pressed="true">Specific videos</button>
     <button type="button" id="m-topics" aria-pressed="false">Topics in channels</button>
   </div>
-
   <div class="panel">
     <div id="box-links">
       <label for="urls">Video links</label>
@@ -93,7 +90,6 @@ a{color:var(--accent)}
       <label for="videos">How many videos to clip</label>
       <input id="videos" type="number" min="1" max="5" inputmode="numeric">
     </div>
-
     <details>
       <summary>Clip settings</summary>
       <div class="row">
@@ -110,14 +106,12 @@ a{color:var(--accent)}
   </div>
   <button class="primary" id="start" type="button">Start clipping</button>
 </main>
-
 <main id="tab-runs" hidden>
   <h1>Runs</h1>
   <p class="lead">Newest first. This list refreshes by itself while a run is going.</p>
   <button class="small" id="refresh" type="button">Refresh now</button>
   <div id="runs" style="margin-top:14px"></div>
 </main>
-
 <main id="tab-setup" hidden>
   <h1>Setup</h1>
   <p class="lead">One time. The key is saved only in this browser.</p>
@@ -137,20 +131,16 @@ a{color:var(--accent)}
     <button id="forget" type="button">Remove key</button>
   </div>
 </main>
-
 <section class="sheet" id="sheet" hidden aria-label="Clips">
   <header><button class="small" id="back" type="button">Back</button><h2 id="sheet-title">Clips</h2></header>
   <main id="sheet-body"></main>
 </section>
-
 <div id="toast" role="status" hidden></div>
-
 <nav aria-label="Sections">
   <button type="button" data-tab="run" aria-current="page">Clip</button>
   <button type="button" data-tab="runs">Runs</button>
   <button type="button" data-tab="setup">Setup</button>
 </nav>
-
 <script>
 (function(){
 "use strict";
@@ -163,11 +153,9 @@ function load(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.get
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 var $=function(id){return document.getElementById(id);};
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
-
 /* ---------- toast ---------- */
 var toastTimer;
 function toast(msg){var t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.hidden=true;},5000);}
-
 /* ---------- GitHub API ---------- */
 function repoPath(){return "/repos/"+encodeURIComponent(S.owner)+"/"+encodeURIComponent(S.repo);}
 async function api(path,opt){
@@ -186,7 +174,6 @@ async function fail(r){
   return new Error(m||("GitHub error "+r.status));
 }
 async function getJSON(path){var r=await api(path);if(!r.ok) throw await fail(r);return r.json();}
-
 /* ---------- tabs ---------- */
 var pollTimer;
 function show(tab){
@@ -198,7 +185,6 @@ function show(tab){
   window.scrollTo(0,0);
 }
 document.querySelectorAll("nav button").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.tab);});});
-
 /* ---------- form ---------- */
 var fields=["urls","channels","topics","videos","num","length","language","model"];
 function fill(){fields.forEach(function(f){$(f).value=S[f];});setMode(S.mode);
@@ -209,7 +195,6 @@ function setMode(m){S.mode=m;save();
   $("box-links").hidden=(m!=="links");$("box-topics").hidden=(m!=="topics");}
 $("m-links").addEventListener("click",function(){setMode("links");});
 $("m-topics").addEventListener("click",function(){setMode("topics");});
-
 $("start").addEventListener("click",async function(){
   var btn=$("start");
   var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model};
@@ -233,7 +218,6 @@ $("start").addEventListener("click",async function(){
   }catch(e){toast(e.message);}
   btn.disabled=false;btn.textContent="Start clipping";
 });
-
 /* ---------- runs ---------- */
 function ago(iso){var s=(Date.now()-new Date(iso).getTime())/1000;
   if(s<60) return "just now";if(s<3600) return Math.floor(s/60)+" min ago";
@@ -279,9 +263,7 @@ $("runs").addEventListener("click",async function(ev){
     catch(e){toast(e.message);b.disabled=false;}
   }
 });
-
 /* ---------- clips ---------- */
-var blobCache={};
 function mmss(s){s=Math.max(0,Math.round(s));var h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;
   var p=function(n){return String(n).padStart(2,"0");};return h?h+":"+p(m)+":"+p(x):m+":"+p(x);}
 async function openClips(run){
@@ -289,16 +271,16 @@ async function openClips(run){
   var body=$("sheet-body");body.innerHTML='<div class="empty">Loading clips…</div>';
   var rel;
   try{rel=await getJSON(repoPath()+"/releases/tags/run-"+run.run_number);}
-  catch(e){body.innerHTML='<div class="empty">No clips were saved for this run.<br><a href="'+esc(run.html_url)+'" target="_blank" rel="noopener">Open the log on GitHub</a></div>';return;}
+  catch(e){body.innerHTML='<div class="empty">No clips were saved for this run. <a href="'+esc(run.html_url)+'" target="_blank" rel="noopener">Open the log on GitHub</a></div>';return;}
   var items=[];try{items=JSON.parse(rel.body||"[]");}catch(e){}
   var meta={};items.forEach(function(i){meta[i.file]=i;});
   var assets=(rel.assets||[]).filter(function(a){return /\.mp4$/i.test(a.name);});
   if(!assets.length){body.innerHTML='<div class="empty">This run has no clips.</div>';return;}
-  body.innerHTML='<p class="lead">'+assets.length+' clips. Tap Play to load one; each is about '+Math.round(assets[0].size/1048576)+' MB.</p>'+
+  body.innerHTML='<p class="lead">'+assets.length+' clips. Tap Play to watch one; each is about '+Math.round(assets[0].size/1048576)+' MB.</p>'+
     assets.map(function(a){
       var m=meta[a.name]||{},key=run.run_number+"/"+a.name,dur=m.source_duration;
       var strip=dur?'<div class="strip" aria-hidden="true"><i style="left:'+(m.start/dur*100).toFixed(2)+'%;width:'+(((m.end-m.start)/dur)*100).toFixed(2)+'%"></i></div>':'';
-      return '<div class="panel run" data-asset="'+a.id+'" data-name="'+esc(a.name)+'" data-key="'+esc(key)+'">'+
+      return '<div class="panel run" data-asset="'+a.id+'" data-url="'+esc(a.browser_download_url)+'" data-name="'+esc(a.name)+'" data-key="'+esc(key)+'">'+
         '<div class="name">'+esc(m.source_title||a.name)+'</div>'+
         '<div class="meta">'+esc(m.channel||"")+(m.channel?" · ":"")+(m.start!=null?mmss(m.start)+"–"+mmss(m.end)+(dur?" of "+mmss(dur):"")+" · ":"")+(a.size/1048576).toFixed(1)+' MB</div>'+strip+
         '<div class="actions"><button class="small" data-play>Play</button><button class="small" data-dl>Download</button>'+
@@ -306,38 +288,31 @@ async function openClips(run){
         '<div data-slot></div></div>';
     }).join("")+'<p class="hint"><a href="'+esc(rel.html_url)+'" target="_blank" rel="noopener">Open this release on GitHub</a> if a clip won’t load here.</p>';
 }
-async function blobFor(id){
-  if(blobCache[id]) return blobCache[id];
-  var r;
-  try{r=await api(repoPath()+"/releases/assets/"+id,{accept:"application/octet-stream"});}
-  catch(e){throw new Error("Your browser blocked loading the clip. Use the GitHub release link at the bottom instead.");}
-  if(!r.ok) throw await fail(r);
-  var b=await r.blob();
-  blobCache[id]=URL.createObjectURL(new Blob([b],{type:"video/mp4"}));
-  return blobCache[id];
-}
-$("sheet-body").addEventListener("click",async function(ev){
+$("sheet-body").addEventListener("click",function(ev){
   var b=ev.target.closest("button");if(!b) return;
   var card=b.closest("[data-asset]");if(!card) return;
-  var id=card.dataset.asset;
+
   if(b.hasAttribute("data-ok")){
     var k=card.dataset.key;S.approved[k]=!S.approved[k];if(!S.approved[k]) delete S.approved[k];save();
     var on=!!S.approved[k];b.textContent=on?"Approved":"Approve";b.setAttribute("aria-pressed",on);return;}
-  var label=b.textContent;b.disabled=true;b.textContent="Loading…";
-  try{
-    var url=await blobFor(id);
-    if(b.hasAttribute("data-play")){
-      var slot=card.querySelector("[data-slot]");
-      slot.innerHTML='<video controls playsinline autoplay src="'+url+'"></video>';
-    }else{
-      var a=document.createElement("a");a.href=url;a.download=card.dataset.name;document.body.appendChild(a);a.click();a.remove();
-      toast("Download started.");
-    }
-  }catch(e){toast(e.message);}
-  b.disabled=false;b.textContent=label;
+
+  var url=card.dataset.url;
+
+  if(b.hasAttribute("data-play")){
+    var slot=card.querySelector("[data-slot]");
+    slot.innerHTML='<video controls playsinline autoplay preload="auto" src="'+esc(url)+'"></video>';
+    slot.querySelector("video").addEventListener("error",function(){
+      slot.innerHTML='<p class="hint">Couldn\u2019t play here. <a href="'+esc(url)+'" target="_blank" rel="noopener">Open or download the clip</a>.</p>';
+      toast("Couldn't play here. Use Download or the release link at the bottom.");
+    });
+  }else if(b.hasAttribute("data-dl")){
+    var a=document.createElement("a");
+    a.href=url;a.download=card.dataset.name;a.target="_blank";a.rel="noopener";
+    document.body.appendChild(a);a.click();a.remove();
+    toast("Download started.");
+  }
 });
 $("back").addEventListener("click",function(){$("sheet").hidden=true;});
-
 /* ---------- setup ---------- */
 $("save").addEventListener("click",async function(){
   ["owner","repo","branch","token"].forEach(function(f){S[f]=$(f).value.trim();});save();
@@ -348,7 +323,6 @@ $("save").addEventListener("click",async function(){
   }catch(e){toast(e.message);}
 });
 $("forget").addEventListener("click",function(){S.token="";$("token").value="";save();toast("Key removed from this browser.");});
-
 fill();
 if(!S.token) show("setup");
 })();
