@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14213D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Clip Desk</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E9EDF2; --panel:#FFFFFF; --ink:#14213D; --muted:#5B6783; --line:#CBD3E0;
+  --accent:#2F5BFF; --on-accent:#FFFFFF; --mark:#FFD84D; --ok:#127A4B; --bad:#B3261E; --track:#DCE2EC;
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#0E1524; --panel:#172138; --ink:#E8ECF5; --muted:#9AA7C4; --line:#2A3858;
+    --accent:#7C9BFF; --on-accent:#0E1524; --ok:#4FD39A; --bad:#FF8A80; --track:#26324F; }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Instrument Sans",system-ui,sans-serif;font-size:16px;line-height:1.45}
+body{padding:env(safe-area-inset-top,0) 0 calc(76px + env(safe-area-inset-bottom,0)) 0;min-height:100vh}
+h1,h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;letter-spacing:-.01em}
+h1{font-size:1.9rem;font-weight:800}
+h2{font-size:1.15rem;font-weight:600}
+main{max-width:640px;margin:0 auto;padding:20px 16px}
+.lead{color:var(--muted);margin:6px 0 18px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+label{display:block;font-weight:600;margin:14px 0 6px}
+label:first-child{margin-top:0}
+.hint{color:var(--muted);font-size:.9rem;margin:4px 0 0}
+input,textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;min-height:46px}
+textarea{min-height:96px;resize:vertical}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{font:inherit;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);min-height:46px;padding:0 16px;cursor:pointer}
+button.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent);width:100%;min-height:52px;font-size:1.05rem}
+button.small{min-height:40px;padding:0 12px;font-size:.92rem}
+button[disabled]{opacity:.55;cursor:default}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--track);border-radius:12px;padding:4px;margin-bottom:14px}
+.seg button{border:0;background:transparent;border-radius:9px}
+.seg button[aria-pressed="true"]{background:var(--panel);box-shadow:0 1px 3px rgba(20,33,61,.18)}
+details{margin:14px 0 4px} summary{cursor:pointer;font-weight:600;min-height:40px;display:flex;align-items:center}
+nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(3,1fr);background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0);z-index:5}
+nav button{border:0;border-radius:0;background:transparent;min-height:60px;color:var(--muted)}
+nav button[aria-current="page"]{color:var(--accent);box-shadow:inset 0 3px 0 var(--accent)}
+.run{display:flex;flex-direction:column;gap:10px}
+.run .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.run .name{font-weight:600;word-break:break-word}
+.badge{white-space:nowrap;font-weight:600;font-size:.9rem;padding:3px 10px;border-radius:999px;background:var(--track)}
+.badge.ok{color:var(--ok)} .badge.bad{color:var(--bad)} .badge.live{color:var(--accent)}
+.meta{color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.strip{position:relative;height:10px;border-radius:5px;background:var(--track);overflow:hidden}
+.strip i{position:absolute;top:0;bottom:0;background:var(--mark);min-width:4px;border-radius:5px}
+video{width:100%;max-height:70vh;border-radius:10px;background:#000;margin-top:4px}
+.sheet{position:fixed;inset:0;background:var(--bg);overflow:auto;z-index:10;padding-top:env(safe-area-inset-top,0)}
+.sheet[hidden]{display:none}
+.sheet header{position:sticky;top:0;background:var(--bg);display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.empty{text-align:center;color:var(--muted);padding:36px 8px}
+#toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0));max-width:608px;margin:0 auto;background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:12px;z-index:20;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+#toast[hidden]{display:none}
+a{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<main id="tab-run">
+  <h1>Clip Desk</h1>
+  <p class="lead">Tell the clipper what to cut. It runs on GitHub; you can close this page and come back.</p>
+
+  <div class="seg" role="group" aria-label="What to clip">
+    <button type="button" id="m-links" aria-pressed="true">Specific videos</button>
+    <button type="button" id="m-topics" aria-pressed="false">Topics in channels</button>
+  </div>
+
+  <div class="panel">
+    <div id="box-links">
+      <label for="urls">Video links</label>
+      <textarea id="urls" placeholder="https://www.youtube.com/watch?v=…" inputmode="url" autocapitalize="off" spellcheck="false"></textarea>
+      <p class="hint">One link per line. Each video is clipped even if you clipped it before.</p>
+    </div>
+    <div id="box-topics" hidden>
+      <label for="topics">Topics</label>
+      <input id="topics" placeholder="GTA, glitch, funny" autocapitalize="off">
+      <p class="hint">Separate topics with commas.</p>
+      <label for="channels">Channels to search in</label>
+      <textarea id="channels" inputmode="url" autocapitalize="off" spellcheck="false"></textarea>
+      <p class="hint">One channel link per line. Leave empty to search all of YouTube.</p>
+      <label for="videos">How many videos to clip</label>
+      <input id="videos" type="number" min="1" max="5" inputmode="numeric">
+    </div>
+
+    <details>
+      <summary>Clip settings</summary>
+      <div class="row">
+        <div><label for="num">Clips per video</label><input id="num" type="number" min="1" max="15" inputmode="numeric"></div>
+        <div><label for="length">Seconds per clip</label><input id="length" type="number" min="10" max="90" inputmode="numeric"></div>
+      </div>
+      <div class="row">
+        <div><label for="language">Speech language</label>
+          <select id="language"><option value="hi">Hindi</option><option value="en">English</option><option value="auto">Detect automatically</option></select></div>
+        <div><label for="model">Caption quality</label>
+          <select id="model"><option value="tiny">Fast (tiny)</option><option value="base">Balanced (base)</option><option value="small">Best (small)</option></select></div>
+      </div>
+    </details>
+  </div>
+  <button class="primary" id="start" type="button">Start clipping</button>
+</main>
+
+<main id="tab-runs" hidden>
+  <h1>Runs</h1>
+  <p class="lead">Newest first. This list refreshes by itself while a run is going.</p>
+  <button class="small" id="refresh" type="button">Refresh now</button>
+  <div id="runs" style="margin-top:14px"></div>
+</main>
+
+<main id="tab-setup" hidden>
+  <h1>Setup</h1>
+  <p class="lead">One time. The key is saved only in this browser.</p>
+  <div class="panel">
+    <div class="row">
+      <div><label for="owner">GitHub username</label><input id="owner" autocapitalize="off" spellcheck="false"></div>
+      <div><label for="repo">Clipper repo</label><input id="repo" autocapitalize="off" spellcheck="false"></div>
+    </div>
+    <label for="branch">Branch</label>
+    <input id="branch" autocapitalize="off" spellcheck="false">
+    <label for="token">GitHub access key</label>
+    <input id="token" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…">
+    <p class="hint">Make a fine-grained key for only your clipper repo, with Actions: read and write, and Contents: read-only.</p>
+  </div>
+  <div class="actions">
+    <button class="primary" id="save" type="button" style="width:auto;flex:1">Save and test</button>
+    <button id="forget" type="button">Remove key</button>
+  </div>
+</main>
+
+<section class="sheet" id="sheet" hidden aria-label="Clips">
+  <header><button class="small" id="back" type="button">Back</button><h2 id="sheet-title">Clips</h2></header>
+  <main id="sheet-body"></main>
+</section>
+
+<div id="toast" role="status" hidden></div>
+
+<nav aria-label="Sections">
+  <button type="button" data-tab="run" aria-current="page">Clip</button>
+  <button type="button" data-tab="runs">Runs</button>
+  <button type="button" data-tab="setup">Setup</button>
+</nav>
+
+<script>
+(function(){
+"use strict";
+var KEY="clipdesk.v1";
+var DEFAULTS={owner:"cooldolphine",repo:"auto-clipper",branch:"main",token:"",mode:"links",urls:"",
+  channels:["https://www.youtube.com/@BeastBoyShub","https://www.youtube.com/@TechnoGamerzOfficial","https://www.youtube.com/@liveinsaan","https://www.youtube.com/@CarryisLive","https://www.youtube.com/@Mythpat"].join("\n"),
+  topics:"",videos:1,num:5,length:40,language:"hi",model:"small",approved:{}};
+var S=load();
+function load(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){return Object.assign({},DEFAULTS);}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+var $=function(id){return document.getElementById(id);};
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+/* ---------- toast ---------- */
+var toastTimer;
+function toast(msg){var t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.hidden=true;},5000);}
+
+/* ---------- GitHub API ---------- */
+function repoPath(){return "/repos/"+encodeURIComponent(S.owner)+"/"+encodeURIComponent(S.repo);}
+async function api(path,opt){
+  opt=opt||{};
+  if(!S.token) throw new Error("Add your GitHub key in Setup first.");
+  var headers={"Accept":opt.accept||"application/vnd.github+json","Authorization":"Bearer "+S.token,"X-GitHub-Api-Version":"2022-11-28"};
+  if(opt.body) headers["Content-Type"]="application/json";
+  return fetch("https://api.github.com"+path,{method:opt.method||"GET",headers:headers,body:opt.body?JSON.stringify(opt.body):undefined});
+}
+async function fail(r){
+  var m="";try{m=(await r.json()).message;}catch(e){}
+  if(r.status===401) return new Error("GitHub rejected the key. Make a new one and save it in Setup.");
+  if(r.status===403) return new Error("GitHub blocked this: "+(m||"the key may lack permission, or you hit a rate limit."));
+  if(r.status===404) return new Error("Not found. Check the username and repo name, and that the key can open this repo.");
+  if(r.status===422) return new Error("GitHub refused the request: "+(m||"check the workflow inputs."));
+  return new Error(m||("GitHub error "+r.status));
+}
+async function getJSON(path){var r=await api(path);if(!r.ok) throw await fail(r);return r.json();}
+
+/* ---------- tabs ---------- */
+var pollTimer;
+function show(tab){
+  ["run","runs","setup"].forEach(function(t){$("tab-"+t).hidden=(t!==tab);});
+  document.querySelectorAll("nav button").forEach(function(b){
+    if(b.dataset.tab===tab) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current");});
+  clearTimeout(pollTimer);
+  if(tab==="runs") loadRuns();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("nav button").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.tab);});});
+
+/* ---------- form ---------- */
+var fields=["urls","channels","topics","videos","num","length","language","model"];
+function fill(){fields.forEach(function(f){$(f).value=S[f];});setMode(S.mode);
+  ["owner","repo","branch","token"].forEach(function(f){$(f).value=S[f];});}
+fields.forEach(function(f){$(f).addEventListener("input",function(){S[f]=$(f).value;save();});});
+function setMode(m){S.mode=m;save();
+  $("m-links").setAttribute("aria-pressed",m==="links");$("m-topics").setAttribute("aria-pressed",m==="topics");
+  $("box-links").hidden=(m!=="links");$("box-topics").hidden=(m!=="topics");}
+$("m-links").addEventListener("click",function(){setMode("links");});
+$("m-topics").addEventListener("click",function(){setMode("topics");});
+
+$("start").addEventListener("click",async function(){
+  var btn=$("start");
+  var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model};
+  if(S.mode==="links"){
+    var urls=S.urls.split(/[\s,]+/).filter(Boolean);
+    if(!urls.length) return toast("Paste at least one video link.");
+    if(urls.some(function(u){return !/^https?:\/\//i.test(u);})) return toast("Each link must start with https://");
+    inputs.urls=urls.join(" ");
+  }else{
+    var topics=S.topics.split(",").map(function(t){return t.trim();}).filter(Boolean);
+    if(!topics.length) return toast("Enter at least one topic.");
+    var ch=S.channels.split(/[\s,]+/).filter(Boolean);
+    inputs.topics=topics.join(",");inputs.channels=ch.length?ch.join(" "):"none";inputs.videos=String(S.videos||1);
+  }
+  btn.disabled=true;btn.textContent="Starting…";
+  try{
+    var r=await api(repoPath()+"/actions/workflows/clip.yml/dispatches",{method:"POST",body:{ref:S.branch||"main",inputs:inputs}});
+    if(r.status!==204) throw await fail(r);
+    toast("Started. It shows up in Runs in a few seconds.");
+    setTimeout(function(){show("runs");},3500);
+  }catch(e){toast(e.message);}
+  btn.disabled=false;btn.textContent="Start clipping";
+});
+
+/* ---------- runs ---------- */
+function ago(iso){var s=(Date.now()-new Date(iso).getTime())/1000;
+  if(s<60) return "just now";if(s<3600) return Math.floor(s/60)+" min ago";
+  if(s<86400) return Math.floor(s/3600)+" h ago";return Math.floor(s/86400)+" d ago";}
+function elapsed(iso){var m=Math.max(0,Math.floor((Date.now()-new Date(iso).getTime())/60000));
+  return m<60?m+" min":Math.floor(m/60)+" h "+(m%60)+" min";}
+function status(r){
+  if(r.status==="completed"){
+    if(r.conclusion==="success") return {t:"Done",c:"ok"};
+    if(r.conclusion==="cancelled") return {t:"Cancelled",c:""};
+    return {t:"Failed",c:"bad"};}
+  if(r.status==="in_progress") return {t:"Running",c:"live"};
+  return {t:"Waiting to start",c:"live"};
+}
+var lastRuns=[];
+async function loadRuns(){
+  var box=$("runs");
+  try{
+    var d=await getJSON(repoPath()+"/actions/workflows/clip.yml/runs?per_page=15");
+    lastRuns=d.workflow_runs||[];
+    if(!lastRuns.length){box.innerHTML='<div class="empty">No runs yet. Start one from the Clip tab.</div>';return;}
+    box.innerHTML=lastRuns.map(function(r){
+      var s=status(r),busy=r.status!=="completed";
+      return '<div class="panel run"><div class="top"><div class="name">'+esc(r.display_title||("Run "+r.run_number))+'</div><span class="badge '+s.c+'">'+s.t+'</span></div>'+
+        '<div class="meta">Run '+r.run_number+' · '+(busy?"started "+elapsed(r.run_started_at||r.created_at)+" ago":ago(r.updated_at))+'</div>'+
+        '<div class="actions">'+
+        (r.conclusion==="success"?'<button class="small" data-clips="'+r.id+'">Open clips</button>':'')+
+        (busy?'<button class="small" data-cancel="'+r.id+'">Cancel</button>':'')+
+        '<a class="small" style="align-self:center" href="'+esc(r.html_url)+'" target="_blank" rel="noopener">Log on GitHub</a></div></div>';
+    }).join("");
+    if(lastRuns.some(function(r){return r.status!=="completed";})){
+      clearTimeout(pollTimer);pollTimer=setTimeout(function(){if(!$("tab-runs").hidden) loadRuns();},20000);}
+  }catch(e){box.innerHTML='<div class="empty">'+esc(e.message)+'</div>';}
+}
+$("refresh").addEventListener("click",loadRuns);
+$("runs").addEventListener("click",async function(ev){
+  var b=ev.target.closest("button");if(!b) return;
+  if(b.dataset.clips){var run=lastRuns.find(function(r){return String(r.id)===b.dataset.clips;});if(run) openClips(run);}
+  if(b.dataset.cancel){
+    b.disabled=true;
+    try{var r=await api(repoPath()+"/actions/runs/"+b.dataset.cancel+"/cancel",{method:"POST"});
+      if(r.status!==202) throw await fail(r);toast("Cancelling…");setTimeout(loadRuns,3000);}
+    catch(e){toast(e.message);b.disabled=false;}
+  }
+});
+
+/* ---------- clips ---------- */
+var blobCache={};
+function mmss(s){s=Math.max(0,Math.round(s));var h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;
+  var p=function(n){return String(n).padStart(2,"0");};return h?h+":"+p(m)+":"+p(x):m+":"+p(x);}
+async function openClips(run){
+  $("sheet").hidden=false;$("sheet-title").textContent="Run "+run.run_number;
+  var body=$("sheet-body");body.innerHTML='<div class="empty">Loading clips…</div>';
+  var rel;
+  try{rel=await getJSON(repoPath()+"/releases/tags/run-"+run.run_number);}
+  catch(e){body.innerHTML='<div class="empty">No clips were saved for this run.<br><a href="'+esc(run.html_url)+'" target="_blank" rel="noopener">Open the log on GitHub</a></div>';return;}
+  var items=[];try{items=JSON.parse(rel.body||"[]");}catch(e){}
+  var meta={};items.forEach(function(i){meta[i.file]=i;});
+  var assets=(rel.assets||[]).filter(function(a){return /\.mp4$/i.test(a.name);});
+  if(!assets.length){body.innerHTML='<div class="empty">This run has no clips.</div>';return;}
+  body.innerHTML='<p class="lead">'+assets.length+' clips. Tap Play to load one; each is about '+Math.round(assets[0].size/1048576)+' MB.</p>'+
+    assets.map(function(a){
+      var m=meta[a.name]||{},key=run.run_number+"/"+a.name,dur=m.source_duration;
+      var strip=dur?'<div class="strip" aria-hidden="true"><i style="left:'+(m.start/dur*100).toFixed(2)+'%;width:'+(((m.end-m.start)/dur)*100).toFixed(2)+'%"></i></div>':'';
+      return '<div class="panel run" data-asset="'+a.id+'" data-name="'+esc(a.name)+'" data-key="'+esc(key)+'">'+
+        '<div class="name">'+esc(m.source_title||a.name)+'</div>'+
+        '<div class="meta">'+esc(m.channel||"")+(m.channel?" · ":"")+(m.start!=null?mmss(m.start)+"–"+mmss(m.end)+(dur?" of "+mmss(dur):"")+" · ":"")+(a.size/1048576).toFixed(1)+' MB</div>'+strip+
+        '<div class="actions"><button class="small" data-play>Play</button><button class="small" data-dl>Download</button>'+
+        '<button class="small" data-ok aria-pressed="'+(!!S.approved[key])+'">'+(S.approved[key]?"Approved":"Approve")+'</button></div>'+
+        '<div data-slot></div></div>';
+    }).join("")+'<p class="hint"><a href="'+esc(rel.html_url)+'" target="_blank" rel="noopener">Open this release on GitHub</a> if a clip won’t load here.</p>';
+}
+async function blobFor(id){
+  if(blobCache[id]) return blobCache[id];
+  var r;
+  try{r=await api(repoPath()+"/releases/assets/"+id,{accept:"application/octet-stream"});}
+  catch(e){throw new Error("Your browser blocked loading the clip. Use the GitHub release link at the bottom instead.");}
+  if(!r.ok) throw await fail(r);
+  var b=await r.blob();
+  blobCache[id]=URL.createObjectURL(new Blob([b],{type:"video/mp4"}));
+  return blobCache[id];
+}
+$("sheet-body").addEventListener("click",async function(ev){
+  var b=ev.target.closest("button");if(!b) return;
+  var card=b.closest("[data-asset]");if(!card) return;
+  var id=card.dataset.asset;
+  if(b.hasAttribute("data-ok")){
+    var k=card.dataset.key;S.approved[k]=!S.approved[k];if(!S.approved[k]) delete S.approved[k];save();
+    var on=!!S.approved[k];b.textContent=on?"Approved":"Approve";b.setAttribute("aria-pressed",on);return;}
+  var label=b.textContent;b.disabled=true;b.textContent="Loading…";
+  try{
+    var url=await blobFor(id);
+    if(b.hasAttribute("data-play")){
+      var slot=card.querySelector("[data-slot]");
+      slot.innerHTML='<video controls playsinline autoplay src="'+url+'"></video>';
+    }else{
+      var a=document.createElement("a");a.href=url;a.download=card.dataset.name;document.body.appendChild(a);a.click();a.remove();
+      toast("Download started.");
+    }
+  }catch(e){toast(e.message);}
+  b.disabled=false;b.textContent=label;
+});
+$("back").addEventListener("click",function(){$("sheet").hidden=true;});
+
+/* ---------- setup ---------- */
+$("save").addEventListener("click",async function(){
+  ["owner","repo","branch","token"].forEach(function(f){S[f]=$(f).value.trim();});save();
+  try{var d=await getJSON(repoPath());
+    var w=await api(repoPath()+"/actions/workflows/clip.yml");
+    if(!w.ok) throw new Error("Connected to "+d.full_name+", but clip.yml was not found in .github/workflows.");
+    toast("Connected to "+d.full_name+". You can start clipping.");
+  }catch(e){toast(e.message);}
+});
+$("forget").addEventListener("click",function(){S.token="";$("token").value="";save();toast("Key removed from this browser.");});
+
+fill();
+if(!S.token) show("setup");
+})();
+</script>
+</body>
+</html>
