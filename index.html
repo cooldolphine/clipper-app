@@ -30,50 +30,59 @@ main{max-width:640px;margin:0 auto;padding:20px 16px}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
 label{display:block;font-weight:600;margin:14px 0 6px}
 label:first-child{margin-top:0}
+.count{float:right;font-weight:400;color:var(--muted);font-variant-numeric:tabular-nums}
+.count.over{color:var(--bad);font-weight:600}
 .hint{color:var(--muted);font-size:.9rem;margin:4px 0 0}
 input,textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;min-height:46px}
 textarea{min-height:96px;resize:vertical}
+input[type="radio"]{width:auto;min-height:0;margin:0 8px 0 0}
+.opt{display:flex;align-items:center;font-weight:500;margin:10px 0 0;min-height:40px}
 input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-button{font:inherit;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);min-height:46px;padding:0 16px;cursor:pointer}
+button,a.btn{font:inherit;font-weight:600;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);min-height:46px;padding:0 16px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
 button.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent);width:100%;min-height:52px;font-size:1.05rem}
-button.small{min-height:40px;padding:0 12px;font-size:.92rem}
+button.small,a.btn.small{min-height:40px;padding:0 12px;font-size:.92rem}
 button[disabled]{opacity:.55;cursor:default}
 .seg{display:grid;grid-template-columns:1fr 1fr;background:var(--track);border-radius:12px;padding:4px;margin-bottom:14px}
 .seg button{border:0;background:transparent;border-radius:9px}
 .seg button[aria-pressed="true"]{background:var(--panel);box-shadow:0 1px 3px rgba(20,33,61,.18)}
 details{margin:14px 0 4px} summary{cursor:pointer;font-weight:600;min-height:40px;display:flex;align-items:center}
-nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(3,1fr);background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0);z-index:5}
-nav button{border:0;border-radius:0;background:transparent;min-height:60px;color:var(--muted)}
+nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);background:var(--panel);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0);z-index:5}
+nav button{border:0;border-radius:0;background:transparent;min-height:60px;color:var(--muted);padding:0 4px}
 nav button[aria-current="page"]{color:var(--accent);box-shadow:inset 0 3px 0 var(--accent)}
 .run{display:flex;flex-direction:column;gap:10px}
 .run .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .run .name{font-weight:600;word-break:break-word}
 .badge{white-space:nowrap;font-weight:600;font-size:.9rem;padding:3px 10px;border-radius:999px;background:var(--track)}
 .badge.ok{color:var(--ok)} .badge.bad{color:var(--bad)} .badge.live{color:var(--accent)}
-.meta{color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums}
+.meta{color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums;word-break:break-word}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
 .strip{position:relative;height:10px;border-radius:5px;background:var(--track);overflow:hidden}
 .strip i{position:absolute;top:0;bottom:0;background:var(--mark);min-width:4px;border-radius:5px}
 video{width:100%;max-height:70vh;border-radius:10px;background:#000;margin-top:4px}
 .sheet{position:fixed;inset:0;background:var(--bg);overflow:auto;z-index:10;padding-top:env(safe-area-inset-top,0)}
+#post-sheet{z-index:12}
 .sheet[hidden]{display:none}
-.sheet header{position:sticky;top:0;background:var(--bg);display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.sheet header{position:sticky;top:0;background:var(--bg);display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);z-index:1}
 .empty{text-align:center;color:var(--muted);padding:36px 8px}
-#toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0));max-width:608px;margin:0 auto;background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:12px;z-index:20;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.soon{opacity:.6}
+#toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0));max-width:608px;margin:0 auto;background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:12px;z-index:30;box-shadow:0 6px 24px rgba(0,0,0,.25)}
 #toast[hidden]{display:none}
 a{color:var(--accent)}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
+
 <main id="tab-run">
   <h1>Clip Desk</h1>
   <p class="lead">Tell the clipper what to cut. It runs on GitHub; you can close this page and come back.</p>
+
   <div class="seg" role="group" aria-label="What to clip">
     <button type="button" id="m-links" aria-pressed="true">Specific videos</button>
     <button type="button" id="m-topics" aria-pressed="false">Topics in channels</button>
   </div>
+
   <div class="panel">
     <div id="box-links">
       <label for="urls">Video links</label>
@@ -90,11 +99,20 @@ a{color:var(--accent)}
       <label for="videos">How many videos to clip</label>
       <input id="videos" type="number" min="1" max="5" inputmode="numeric">
     </div>
+
     <details>
       <summary>Clip settings</summary>
       <div class="row">
         <div><label for="num">Clips per video</label><input id="num" type="number" min="1" max="15" inputmode="numeric"></div>
         <div><label for="length">Seconds per clip</label><input id="length" type="number" min="10" max="90" inputmode="numeric"></div>
+      </div>
+      <label for="framing">Vertical framing</label>
+      <select id="framing"><option value="center">Center crop</option><option value="blur">Whole frame on a blurred background</option><option value="face">Follow the face</option></select>
+      <div class="row">
+        <div><label for="captions">Captions</label>
+          <select id="captions"><option value="karaoke">Word by word</option><option value="classic">Classic lines</option><option value="off">None</option></select></div>
+        <div><label for="hook">Headline at the start</label>
+          <select id="hook"><option value="auto">Automatic</option><option value="off">Off</option></select></div>
       </div>
       <div class="row">
         <div><label for="language">Speech language</label>
@@ -106,12 +124,24 @@ a{color:var(--accent)}
   </div>
   <button class="primary" id="start" type="button">Start clipping</button>
 </main>
+
 <main id="tab-runs" hidden>
   <h1>Runs</h1>
   <p class="lead">Newest first. This list refreshes by itself while a run is going.</p>
   <button class="small" id="refresh" type="button">Refresh now</button>
   <div id="runs" style="margin-top:14px"></div>
 </main>
+
+<main id="tab-posts" hidden>
+  <h1>Posts</h1>
+  <p class="lead">Clips waiting to go out, and what happened to the rest.</p>
+  <div class="actions">
+    <button class="small" id="posts-refresh" type="button">Refresh</button>
+    <button class="small" id="posts-check" type="button">Upload now</button>
+  </div>
+  <div id="posts" style="margin-top:14px"></div>
+</main>
+
 <main id="tab-setup" hidden>
   <h1>Setup</h1>
   <p class="lead">One time. The key is saved only in this browser.</p>
@@ -122,82 +152,158 @@ a{color:var(--accent)}
     </div>
     <label for="branch">Branch</label>
     <input id="branch" autocapitalize="off" spellcheck="false">
+    <label for="sched">Scheduler repo (username/name)</label>
+    <input id="sched" autocapitalize="off" spellcheck="false" placeholder="cooldolphine/clipper-app">
     <label for="token">GitHub access key</label>
     <input id="token" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="github_pat_…">
-    <p class="hint">Make a fine-grained key for only your clipper repo, with Actions: read and write, and Contents: read-only.</p>
+    <p class="hint">One fine-grained key for both repos. Clipper repo: Actions read and write, Contents read-only. Scheduler repo: Actions read and write, Contents read and write.</p>
   </div>
   <div class="actions">
     <button class="primary" id="save" type="button" style="width:auto;flex:1">Save and test</button>
     <button id="forget" type="button">Remove key</button>
   </div>
 </main>
+
 <section class="sheet" id="sheet" hidden aria-label="Clips">
   <header><button class="small" id="back" type="button">Back</button><h2 id="sheet-title">Clips</h2></header>
   <main id="sheet-body"></main>
 </section>
+
+<section class="sheet" id="post-sheet" hidden aria-label="Schedule a post">
+  <header><button class="small" id="post-back" type="button">Cancel</button><h2 id="post-heading">Schedule post</h2></header>
+  <main>
+    <div class="panel">
+      <h2 style="margin-bottom:12px">YouTube</h2>
+      <label for="p-title">Title <span class="count" id="c-title"></span></label>
+      <input id="p-title" autocomplete="off">
+      <div class="actions" style="margin-top:8px"><button class="small" id="p-alt" type="button">Try another title</button></div>
+      <label for="p-desc">Description <span class="count" id="c-desc"></span></label>
+      <textarea id="p-desc" rows="9"></textarea>
+      <label for="p-tags">Tags, separated by commas <span class="count" id="c-tags"></span></label>
+      <textarea id="p-tags" rows="3" autocapitalize="off"></textarea>
+      <label>When should it go public?</label>
+      <label class="opt"><input type="radio" name="p-mode" id="p-asap" value="asap">As soon as it uploads</label>
+      <label class="opt"><input type="radio" name="p-mode" id="p-time" value="time" checked>At a time I choose</label>
+      <input id="p-when" type="datetime-local" style="margin-top:8px">
+      <p class="hint" id="p-tz"></p>
+    </div>
+    <div class="panel soon">
+      <h2>Instagram</h2>
+      <p class="hint">Coming next, with its own time.</p>
+    </div>
+    <button class="primary" id="p-save" type="button">Add to schedule</button>
+  </main>
+</section>
+
 <div id="toast" role="status" hidden></div>
+
 <nav aria-label="Sections">
   <button type="button" data-tab="run" aria-current="page">Clip</button>
   <button type="button" data-tab="runs">Runs</button>
+  <button type="button" data-tab="posts">Posts</button>
   <button type="button" data-tab="setup">Setup</button>
 </nav>
+
 <script>
 (function(){
 "use strict";
 var KEY="clipdesk.v1";
-var DEFAULTS={owner:"cooldolphine",repo:"auto-clipper",branch:"main",token:"",mode:"links",urls:"",
+var DEFAULTS={owner:"cooldolphine",repo:"auto-clipper",branch:"main",sched:"cooldolphine/clipper-app",token:"",mode:"links",urls:"",
   channels:["https://www.youtube.com/@BeastBoyShub","https://www.youtube.com/@TechnoGamerzOfficial","https://www.youtube.com/@liveinsaan","https://www.youtube.com/@CarryisLive","https://www.youtube.com/@Mythpat"].join("\n"),
-  topics:"",videos:1,num:5,length:40,language:"hi",model:"small",approved:{}};
+  topics:"",videos:1,num:5,length:40,language:"hi",model:"small",framing:"center",captions:"karaoke",hook:"auto"};
 var S=load();
 function load(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){return Object.assign({},DEFAULTS);}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 var $=function(id){return document.getElementById(id);};
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
 /* ---------- toast ---------- */
 var toastTimer;
-function toast(msg){var t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.hidden=true;},5000);}
+function toast(msg){var t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(function(){t.hidden=true;},6000);}
+
 /* ---------- GitHub API ---------- */
 function repoPath(){return "/repos/"+encodeURIComponent(S.owner)+"/"+encodeURIComponent(S.repo);}
+function schedPath(){
+  if(!/^[\w.-]+\/[\w.-]+$/.test(S.sched||"")) throw new Error("Set the scheduler repo in Setup (like username/clipper-app).");
+  return "/repos/"+S.sched;
+}
 async function api(path,opt){
   opt=opt||{};
   if(!S.token) throw new Error("Add your GitHub key in Setup first.");
   var headers={"Accept":opt.accept||"application/vnd.github+json","Authorization":"Bearer "+S.token,"X-GitHub-Api-Version":"2022-11-28"};
   if(opt.body) headers["Content-Type"]="application/json";
-  return fetch("https://api.github.com"+path,{method:opt.method||"GET",headers:headers,body:opt.body?JSON.stringify(opt.body):undefined});
+  return fetch("https://api.github.com"+path,{method:opt.method||"GET",headers:headers,cache:"no-store",body:opt.body?JSON.stringify(opt.body):undefined});
 }
 async function fail(r){
   var m="";try{m=(await r.json()).message;}catch(e){}
   if(r.status===401) return new Error("GitHub rejected the key. Make a new one and save it in Setup.");
   if(r.status===403) return new Error("GitHub blocked this: "+(m||"the key may lack permission, or you hit a rate limit."));
-  if(r.status===404) return new Error("Not found. Check the username and repo name, and that the key can open this repo.");
-  if(r.status===422) return new Error("GitHub refused the request: "+(m||"check the workflow inputs."));
+  if(r.status===404) return new Error("Not found. Check the repo names in Setup and that the key can open them.");
+  if(r.status===422) return new Error("GitHub refused the request: "+(m||"check the inputs."));
   return new Error(m||("GitHub error "+r.status));
 }
 async function getJSON(path){var r=await api(path);if(!r.ok) throw await fail(r);return r.json();}
+
+function b64enc(str){var bytes=new TextEncoder().encode(str),bin="";bytes.forEach(function(b){bin+=String.fromCharCode(b);});return btoa(bin);}
+function b64dec(b64){var bin=atob(String(b64).replace(/\s/g,""));var bytes=Uint8Array.from(bin,function(c){return c.charCodeAt(0);});return new TextDecoder().decode(bytes);}
+
+/* queue.json (written here) and status.json (written by the scheduler) live in the scheduler repo */
+async function readFile(name,fallback){
+  var r=await api(schedPath()+"/contents/"+name+"?ref="+encodeURIComponent(S.branch||"main"));
+  if(r.status===404) return {data:fallback,sha:null};
+  if(!r.ok) throw await fail(r);
+  var j=await r.json(),data=fallback;
+  try{data=JSON.parse(b64dec(j.content));}catch(e){}
+  return {data:data,sha:j.sha};
+}
+async function writeFile(name,data,sha,msg){
+  var body={message:msg,content:b64enc(JSON.stringify(data,null,1)),branch:S.branch||"main"};
+  if(sha) body.sha=sha;
+  return api(schedPath()+"/contents/"+name,{method:"PUT",body:body});
+}
+async function updateQueue(fn){
+  for(var i=0;i<3;i++){
+    var cur=await readFile("queue.json",[]);
+    var next=fn(Array.isArray(cur.data)?cur.data.slice():[]);
+    var r=await writeFile("queue.json",next,cur.sha,"queue update");
+    if(r.ok) return;
+    if(r.status!==409&&r.status!==422) throw await fail(r);
+  }
+  throw new Error("The schedule changed at the same moment. Please try again.");
+}
+async function kickScheduler(){
+  try{await api(schedPath()+"/actions/workflows/publish.yml/dispatches",{method:"POST",body:{ref:S.branch||"main"}});return true;}
+  catch(e){return false;}
+}
+
 /* ---------- tabs ---------- */
 var pollTimer;
+var TABS=["run","runs","posts","setup"];
 function show(tab){
-  ["run","runs","setup"].forEach(function(t){$("tab-"+t).hidden=(t!==tab);});
+  TABS.forEach(function(t){$("tab-"+t).hidden=(t!==tab);});
   document.querySelectorAll("nav button").forEach(function(b){
     if(b.dataset.tab===tab) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current");});
   clearTimeout(pollTimer);
   if(tab==="runs") loadRuns();
+  if(tab==="posts") loadPosts();
   window.scrollTo(0,0);
 }
 document.querySelectorAll("nav button").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.tab);});});
+
 /* ---------- form ---------- */
-var fields=["urls","channels","topics","videos","num","length","language","model"];
+var fields=["urls","channels","topics","videos","num","length","language","model","framing","captions","hook"];
 function fill(){fields.forEach(function(f){$(f).value=S[f];});setMode(S.mode);
-  ["owner","repo","branch","token"].forEach(function(f){$(f).value=S[f];});}
+  ["owner","repo","branch","sched","token"].forEach(function(f){$(f).value=S[f];});}
 fields.forEach(function(f){$(f).addEventListener("input",function(){S[f]=$(f).value;save();});});
 function setMode(m){S.mode=m;save();
   $("m-links").setAttribute("aria-pressed",m==="links");$("m-topics").setAttribute("aria-pressed",m==="topics");
   $("box-links").hidden=(m!=="links");$("box-topics").hidden=(m!=="topics");}
 $("m-links").addEventListener("click",function(){setMode("links");});
 $("m-topics").addEventListener("click",function(){setMode("topics");});
+
 $("start").addEventListener("click",async function(){
   var btn=$("start");
-  var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model};
+  var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model,framing:S.framing,captions:S.captions,hook:S.hook};
   if(S.mode==="links"){
     var urls=S.urls.split(/[\s,]+/).filter(Boolean);
     if(!urls.length) return toast("Paste at least one video link.");
@@ -218,6 +324,7 @@ $("start").addEventListener("click",async function(){
   }catch(e){toast(e.message);}
   btn.disabled=false;btn.textContent="Start clipping";
 });
+
 /* ---------- runs ---------- */
 function ago(iso){var s=(Date.now()-new Date(iso).getTime())/1000;
   if(s<60) return "just now";if(s<3600) return Math.floor(s/60)+" min ago";
@@ -246,7 +353,7 @@ async function loadRuns(){
         '<div class="actions">'+
         (r.conclusion==="success"?'<button class="small" data-clips="'+r.id+'">Open clips</button>':'')+
         (busy?'<button class="small" data-cancel="'+r.id+'">Cancel</button>':'')+
-        '<a class="small" style="align-self:center" href="'+esc(r.html_url)+'" target="_blank" rel="noopener">Log on GitHub</a></div></div>';
+        '<a class="btn small" href="'+esc(r.html_url)+'" target="_blank" rel="noopener">Log on GitHub</a></div></div>';
     }).join("");
     if(lastRuns.some(function(r){return r.status!=="completed";})){
       clearTimeout(pollTimer);pollTimer=setTimeout(function(){if(!$("tab-runs").hidden) loadRuns();},20000);}
@@ -263,7 +370,9 @@ $("runs").addEventListener("click",async function(ev){
     catch(e){toast(e.message);b.disabled=false;}
   }
 });
+
 /* ---------- clips ---------- */
+var clipIndex={};
 function mmss(s){s=Math.max(0,Math.round(s));var h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;
   var p=function(n){return String(n).padStart(2,"0");};return h?h+":"+p(m)+":"+p(x):m+":"+p(x);}
 async function openClips(run){
@@ -271,58 +380,234 @@ async function openClips(run){
   var body=$("sheet-body");body.innerHTML='<div class="empty">Loading clips…</div>';
   var rel;
   try{rel=await getJSON(repoPath()+"/releases/tags/run-"+run.run_number);}
-  catch(e){body.innerHTML='<div class="empty">No clips were saved for this run. <a href="'+esc(run.html_url)+'" target="_blank" rel="noopener">Open the log on GitHub</a></div>';return;}
+  catch(e){body.innerHTML='<div class="empty">No clips were saved for this run.<br><a href="'+esc(run.html_url)+'" target="_blank" rel="noopener">Open the log on GitHub</a></div>';return;}
   var items=[];try{items=JSON.parse(rel.body||"[]");}catch(e){}
   var meta={};items.forEach(function(i){meta[i.file]=i;});
   var assets=(rel.assets||[]).filter(function(a){return /\.mp4$/i.test(a.name);});
   if(!assets.length){body.innerHTML='<div class="empty">This run has no clips.</div>';return;}
-  body.innerHTML='<p class="lead">'+assets.length+' clips. Tap Play to watch one; each is about '+Math.round(assets[0].size/1048576)+' MB.</p>'+
+  body.innerHTML='<p class="lead">'+assets.length+' clips. Tap Play to watch one here, or Download to save it to your phone (about '+Math.round(assets[0].size/1048576)+' MB each).</p>'+
     assets.map(function(a){
       var m=meta[a.name]||{},key=run.run_number+"/"+a.name,dur=m.source_duration;
+      clipIndex[key]={run:run.run_number,file:a.name,meta:m};
       var strip=dur?'<div class="strip" aria-hidden="true"><i style="left:'+(m.start/dur*100).toFixed(2)+'%;width:'+(((m.end-m.start)/dur)*100).toFixed(2)+'%"></i></div>':'';
-      return '<div class="panel run" data-asset="'+a.id+'" data-url="'+esc(a.browser_download_url)+'" data-name="'+esc(a.name)+'" data-key="'+esc(key)+'">'+
+      return '<div class="panel run" data-url="'+esc(a.browser_download_url)+'" data-name="'+esc(a.name)+'" data-key="'+esc(key)+'">'+
         '<div class="name">'+esc(m.source_title||a.name)+'</div>'+
         '<div class="meta">'+esc(m.channel||"")+(m.channel?" · ":"")+(m.start!=null?mmss(m.start)+"–"+mmss(m.end)+(dur?" of "+mmss(dur):"")+" · ":"")+(a.size/1048576).toFixed(1)+' MB</div>'+strip+
         '<div class="actions"><button class="small" data-play>Play</button><button class="small" data-dl>Download</button>'+
-        '<button class="small" data-ok aria-pressed="'+(!!S.approved[key])+'">'+(S.approved[key]?"Approved":"Approve")+'</button></div>'+
+        '<button class="small" data-sched>Schedule post</button></div>'+
         '<div data-slot></div></div>';
     }).join("")+'<p class="hint"><a href="'+esc(rel.html_url)+'" target="_blank" rel="noopener">Open this release on GitHub</a> if a clip won’t load here.</p>';
 }
 $("sheet-body").addEventListener("click",function(ev){
   var b=ev.target.closest("button");if(!b) return;
-  var card=b.closest("[data-asset]");if(!card) return;
-
-  if(b.hasAttribute("data-ok")){
-    var k=card.dataset.key;S.approved[k]=!S.approved[k];if(!S.approved[k]) delete S.approved[k];save();
-    var on=!!S.approved[k];b.textContent=on?"Approved":"Approve";b.setAttribute("aria-pressed",on);return;}
-
+  var card=b.closest("[data-url]");if(!card) return;
   var url=card.dataset.url;
-
+  if(b.hasAttribute("data-sched")){openPost({clip:clipIndex[card.dataset.key]});return;}
   if(b.hasAttribute("data-play")){
     var slot=card.querySelector("[data-slot]");
-    slot.innerHTML='<video controls playsinline autoplay preload="auto" src="'+esc(url)+'"></video>';
-    slot.querySelector("video").addEventListener("error",function(){
-      slot.innerHTML='<p class="hint">Couldn\u2019t play here. <a href="'+esc(url)+'" target="_blank" rel="noopener">Open or download the clip</a>.</p>';
-      toast("Couldn't play here. Use Download or the release link at the bottom.");
-    });
+    slot.innerHTML='<video controls playsinline autoplay preload="metadata"></video><p class="hint" data-fail hidden>This clip would not play here. Tap Download instead.</p>';
+    var v=slot.querySelector("video");
+    v.addEventListener("error",function(){v.hidden=true;slot.querySelector("[data-fail]").hidden=false;});
+    v.src=url;
   }else if(b.hasAttribute("data-dl")){
-    var a=document.createElement("a");
-    a.href=url;a.download=card.dataset.name;a.target="_blank";a.rel="noopener";
+    var a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener";a.download=card.dataset.name;
     document.body.appendChild(a);a.click();a.remove();
-    toast("Download started.");
+    toast("Download started. If nothing happens, check your browser’s downloads.");
   }
 });
 $("back").addEventListener("click",function(){$("sheet").hidden=true;});
+
+/* ---------- draft title / description / tags (free, no AI) ---------- */
+var STOP=new Set("a an the and or of to in on for with at by from is are was were be this that it its my i you we they he she as but if so do does did not no yes up out all just than then too very can will new full part live stream streaming video official hd 4k episode ep vs gameplay".split(" "));
+function cap(s){s=String(s||"").trim();return s?s.charAt(0).toUpperCase()+s.slice(1):s;}
+function cleanTitle(t,topics){
+  t=String(t||"").replace(/[\u0900-\u097F]+/g," ").replace(/[<>]/g,"").replace(/\s+/g," ").trim();
+  var letters=t.replace(/[^A-Za-z]/g,"");
+  if(letters.length<3) return (topics&&topics.length?cap(topics[0])+" ":"")+"Gaming Moment";
+  if(letters.length>6&&letters===letters.toUpperCase()){
+    t=t.toLowerCase().replace(/(^|[\s(\[-])([a-z])/g,function(m,a,b){return a+b.toUpperCase();});}
+  return t.replace(/\b(Gta|Npc|Pubg|Bgmi|Fps|Rtx|Ai|Pc|Ps5|Ps4|Vi|Rp)\b/g,function(m){return m.toUpperCase();});
+}
+function fit(pre,base,suf){var room=100-pre.length-suf.length;if(base.length>room) base=base.slice(0,Math.max(10,room-1)).trim()+"…";return pre+base+suf;}
+function titleSuggestions(m){
+  var base=cleanTitle(m.source_title,m.topics),ch=String(m.channel||"").trim();
+  return [fit("",base," | Best Moment #Shorts"),fit("This Moment in ",base," Is Wild #Shorts"),fit("",ch?ch+" - "+base:base," | Funniest Part #Shorts")];
+}
+function words(t){var seen={},out=[];String(t).split(/[^A-Za-z0-9]+/).forEach(function(w){
+  var k=w.toLowerCase();if(w.length>2&&!STOP.has(k)&&!seen[k]){seen[k]=1;out.push(w);}});return out.slice(0,8);}
+function tagsLen(list){var n=0;list.forEach(function(t){n+=t.length+(t.indexOf(" ")>=0?2:0)+1;});return n;}
+function draftTags(m){
+  var list=[];
+  (m.topics||[]).forEach(function(t){list.push(cap(t));});
+  words(cleanTitle(m.source_title,m.topics)).forEach(function(w){list.push(w);});
+  if(m.channel) list.push(m.channel);
+  ["Shorts","Gaming","Gameplay","Funny moments","Highlights"].forEach(function(t){list.push(t);});
+  var seen={},out=[];
+  list.forEach(function(t){var k=t.toLowerCase();if(!seen[k]&&tagsLen(out.concat([t]))<=480){seen[k]=1;out.push(t);}});
+  return out;
+}
+function sourceLink(m){
+  try{var u=new URL(m.source);if(m.start!=null) u.searchParams.set("t",Math.max(0,Math.floor(m.start))+"s");return u.toString();}
+  catch(e){return m.source||"";}
+}
+function draftDesc(m,title,tags){
+  var hook=title.replace(/\s*#Shorts\s*$/i,"").trim(),link=sourceLink(m);
+  var pool=(m.topics||[]).map(cap).concat(tags).filter(function(t){return t!=="Shorts"&&t!=="Gaming"&&t!=="Gameplay";});
+  var seen={},hs=[];
+  pool.forEach(function(t){var h="#"+t.replace(/[^A-Za-z0-9]/g,""),k=h.toLowerCase();if(h.length>2&&!seen[k]&&hs.length<(m.topics&&m.topics.length>=2?m.topics.length:2)){seen[k]=1;hs.push(h);}});
+  hs=hs.concat(["#Shorts","#Gaming"]);
+  var lines=[hook,""];
+  if(link) lines.push("Watch the full video: "+link);
+  if(m.channel) lines.push("Original video by "+m.channel);
+  lines.push("");lines.push(hs.join(" "));
+  return lines.join("\n");
+}
+
+/* ---------- schedule form ---------- */
+var postCtx=null;
+function toLocalInput(d){return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);}
+function parseTags(s){return s.split(",").map(function(t){return t.trim();}).filter(Boolean);}
+function counters(){
+  var t=$("p-title").value.length,d=$("p-desc").value.length,g=tagsLen(parseTags($("p-tags").value));
+  $("c-title").textContent=t+" / 100";$("c-title").className="count"+(t>100?" over":"");
+  $("c-desc").textContent=d+" / 4800";$("c-desc").className="count"+(d>4800?" over":"");
+  $("c-tags").textContent=g+" / 480";$("c-tags").className="count"+(g>480?" over":"");
+}
+["p-title","p-desc","p-tags"].forEach(function(id){$(id).addEventListener("input",counters);});
+function whenMode(){$("p-when").disabled=$("p-asap").checked;}
+$("p-asap").addEventListener("change",whenMode);$("p-time").addEventListener("change",whenMode);
+function openPost(ctx){
+  postCtx=ctx;
+  $("p-tz").textContent="Times use this phone’s clock ("+(Intl.DateTimeFormat().resolvedOptions().timeZone||"local time")+").";
+  if(ctx.item){
+    var it=ctx.item;$("post-heading").textContent="Edit post";
+    $("p-title").value=it.title;$("p-desc").value=it.description;$("p-tags").value=(it.tags||[]).join(", ");
+    ctx.titles=null;
+    if(it.when){$("p-time").checked=true;$("p-when").value=toLocalInput(new Date(it.when));}
+    else{$("p-asap").checked=true;$("p-when").value=toLocalInput(new Date(Date.now()+3600000));}
+    $("p-alt").hidden=true;$("p-save").textContent="Save changes";
+  }else{
+    var m=ctx.clip.meta||{};$("post-heading").textContent="Schedule post";
+    ctx.titles=titleSuggestions(m);ctx.titleIdx=0;
+    var tags=draftTags(m);
+    $("p-title").value=ctx.titles[0];$("p-tags").value=tags.join(", ");$("p-desc").value=draftDesc(m,ctx.titles[0],tags);
+    var d=new Date(Date.now()+30*60000);d.setMinutes(0,0,0);d.setHours(d.getHours()+1);
+    $("p-time").checked=true;$("p-when").value=toLocalInput(d);
+    $("p-alt").hidden=false;$("p-save").textContent="Add to schedule";
+  }
+  whenMode();counters();$("post-sheet").hidden=false;$("post-sheet").scrollTop=0;
+}
+$("p-alt").addEventListener("click",function(){
+  if(!postCtx||!postCtx.titles) return;
+  var old=$("p-title").value;postCtx.titleIdx=(postCtx.titleIdx+1)%postCtx.titles.length;
+  var nt=postCtx.titles[postCtx.titleIdx];$("p-title").value=nt;
+  var hookOld=old.replace(/\s*#Shorts\s*$/i,"").trim(),hookNew=nt.replace(/\s*#Shorts\s*$/i,"").trim();
+  var d=$("p-desc").value;if(hookOld&&d.indexOf(hookOld)===0) $("p-desc").value=hookNew+d.slice(hookOld.length);
+  counters();
+});
+$("post-back").addEventListener("click",function(){$("post-sheet").hidden=true;});
+$("p-save").addEventListener("click",async function(){
+  var title=$("p-title").value.trim(),desc=$("p-desc").value.trim(),tags=parseTags($("p-tags").value),when=null;
+  if(!title) return toast("Add a title.");
+  if(title.length>100) return toast("The title is over 100 characters.");
+  if(desc.length>4800) return toast("The description is too long.");
+  if(tagsLen(tags)>480) return toast("Too many tags. YouTube allows about 500 characters in total.");
+  if($("p-time").checked){
+    var v=$("p-when").value;if(!v) return toast("Pick a date and time.");
+    var d=new Date(v);if(isNaN(d.getTime())) return toast("That date and time isn’t valid.");
+    if(d.getTime()<Date.now()+60000) return toast("Pick a time in the future, or choose “As soon as it uploads”.");
+    when=d.toISOString();
+  }
+  var btn=$("p-save");btn.disabled=true;var label=btn.textContent;btn.textContent="Saving…";
+  try{
+    if(postCtx.item){
+      var id=postCtx.item.id;
+      await updateQueue(function(q){return q.map(function(i){
+        return i.id===id?Object.assign({},i,{title:title,description:desc,tags:tags,when:when,rev:(i.rev||1)+1}):i;});});
+    }else{
+      var c=postCtx.clip;
+      var item={id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2),
+        platform:"youtube",repo:S.owner+"/"+S.repo,run:c.run,file:c.file,title:title,description:desc,tags:tags,when:when,rev:1,
+        created:new Date().toISOString(),source_title:(c.meta&&c.meta.source_title)||""};
+      await updateQueue(function(q){q.push(item);return q;});
+    }
+    $("post-sheet").hidden=true;
+    var ok=await kickScheduler();
+    toast(ok?"Added. The upload starts in a minute or two.":"Added. It uploads within 15 minutes.");
+    $("sheet").hidden=true;show("posts");
+  }catch(e){toast(e.message);}
+  btn.disabled=false;btn.textContent=label;
+});
+
+/* ---------- posts ---------- */
+var postsCache={queue:[],status:{}};
+function fmt(iso){return new Date(iso).toLocaleString([],{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});}
+function postState(it,st){
+  if(st&&st.state==="uploaded"){
+    if(st.scheduled&&it.when&&new Date(it.when)>new Date()) return {t:"Scheduled on YouTube",c:"ok",note:"It goes public "+fmt(it.when)+"."};
+    return {t:"Published",c:"ok",note:""};
+  }
+  if(st&&st.state==="failed"&&st.rev===(it.rev||1)) return {t:"Failed",c:"bad",note:st.error||"",failed:true};
+  return {t:"Waiting to upload",c:"live",note:"Uploads within 15 minutes, or tap Upload now."};
+}
+async function loadPosts(){
+  var box=$("posts");box.innerHTML='<div class="empty">Loading…</div>';
+  try{
+    var res=await Promise.all([readFile("queue.json",[]),readFile("status.json",{})]);
+    postsCache.queue=Array.isArray(res[0].data)?res[0].data:[];postsCache.status=res[1].data||{};
+    var list=postsCache.queue.slice().sort(function(a,b){return (a.when?new Date(a.when).getTime():0)-(b.when?new Date(b.when).getTime():0);});
+    if(!list.length){box.innerHTML='<div class="empty">Nothing scheduled yet. Open a run’s clips and tap Schedule post.</div>';return;}
+    box.innerHTML=list.map(function(it){
+      var st=postsCache.status[it.id],s=postState(it,st),up=st&&st.state==="uploaded";
+      return '<div class="panel run" data-id="'+esc(it.id)+'"><div class="top"><div class="name">'+esc(it.title)+'</div><span class="badge '+s.c+'">'+esc(s.t)+'</span></div>'+
+        '<div class="meta">YouTube · '+(it.when?fmt(it.when):"as soon as it uploads")+'</div>'+
+        (s.note?'<div class="meta">'+esc(s.note)+'</div>':'')+
+        '<div class="actions">'+
+        (up&&st.url?'<a class="btn small" href="'+esc(st.url)+'" target="_blank" rel="noopener">Open on YouTube</a>':'')+
+        (!up?'<button class="small" data-edit>Edit</button>':'')+
+        (s.failed?'<button class="small" data-retry>Retry</button>':'')+
+        '<button class="small" data-remove>Remove</button></div>'+
+        (up?'<p class="hint">Removing it here does not delete it from YouTube. Use YouTube Studio to change or delete a video that is already uploaded.</p>':'')+
+        '</div>';
+    }).join("");
+  }catch(e){box.innerHTML='<div class="empty">'+esc(e.message)+'</div>';}
+}
+$("posts-refresh").addEventListener("click",loadPosts);
+$("posts-check").addEventListener("click",async function(){
+  var ok=await kickScheduler();toast(ok?"Started. Refresh in a minute.":"Could not start it. It still runs every 15 minutes.");
+});
+$("posts").addEventListener("click",async function(ev){
+  var b=ev.target.closest("button");if(!b) return;
+  var card=b.closest("[data-id]");if(!card) return;
+  var id=card.dataset.id,it=postsCache.queue.find(function(x){return x.id===id;});if(!it) return;
+  if(b.hasAttribute("data-edit")){openPost({item:it});return;}
+  b.disabled=true;
+  try{
+    if(b.hasAttribute("data-remove")){
+      await updateQueue(function(q){return q.filter(function(x){return x.id!==id;});});toast("Removed.");
+    }else if(b.hasAttribute("data-retry")){
+      await updateQueue(function(q){return q.map(function(x){return x.id===id?Object.assign({},x,{rev:(x.rev||1)+1}):x;});});
+      await kickScheduler();toast("Trying again.");
+    }
+    loadPosts();
+  }catch(e){toast(e.message);b.disabled=false;}
+});
+
 /* ---------- setup ---------- */
 $("save").addEventListener("click",async function(){
-  ["owner","repo","branch","token"].forEach(function(f){S[f]=$(f).value.trim();});save();
-  try{var d=await getJSON(repoPath());
+  ["owner","repo","branch","sched","token"].forEach(function(f){S[f]=$(f).value.trim();});save();
+  try{
+    var d=await getJSON(repoPath());
     var w=await api(repoPath()+"/actions/workflows/clip.yml");
     if(!w.ok) throw new Error("Connected to "+d.full_name+", but clip.yml was not found in .github/workflows.");
-    toast("Connected to "+d.full_name+". You can start clipping.");
+    var msg="Connected to "+d.full_name+".";
+    try{var s=await getJSON(schedPath());msg+=" Scheduler repo "+s.full_name+" works too.";}
+    catch(e2){msg+=" Scheduler repo: "+e2.message;}
+    toast(msg);
   }catch(e){toast(e.message);}
 });
 $("forget").addEventListener("click",function(){S.token="";$("token").value="";save();toast("Key removed from this browser.");});
+
 fill();
 if(!S.token) show("setup");
 })();
