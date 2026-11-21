@@ -3,6 +3,6 @@
   "state": "failed",
   "error": "YouTube sign-in failed: Missing required parameter: refresh_token",
   "rev": 1,
-  "attempts": 1
+  "attempts": 2
  }
 }
