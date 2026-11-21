@@ -1,8 +1,22 @@
 {
  "e0013d9d-b4d7-4881-8586-2b25201a15b0": {
-  "state": "failed",
-  "error": "YouTube sign-in failed: Missing required parameter: refresh_token",
+  "state": "uploaded",
+  "video_id": "eGsqoKpZTNI",
+  "url": "https://youtu.be/eGsqoKpZTNI",
+  "scheduled": false,
+  "publish_at": null,
   "rev": 1,
-  "attempts": 2
+  "uploaded_at": "2026-11-21T19:21:21.943445+00:00",
+  "title": "Pressing the Wrong Button in GTA 6 Fights #Shorts",
+  "meta": {
+   "virality": 91,
+   "reason": "Hilarious combat chaos caused by spamming the wrong attack buttons in a street brawl.",
+   "hook": "WRONG BUTTON COMBAT FAIL!",
+   "ai_title": "Pressing the Wrong Button in GTA 6 Fights",
+   "channel": "BeastBoyShub",
+   "source_title": "TIME TO CHEAT ON LUCIA -  GTA 6 GAMEPLAY Part 2",
+   "topics": [],
+   "layout": "stack"
+  }
  }
 }
