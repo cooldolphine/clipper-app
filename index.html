@@ -106,8 +106,21 @@ a{color:var(--accent)}
         <div><label for="num">Clips per video</label><input id="num" type="number" min="1" max="15" inputmode="numeric"></div>
         <div><label for="length">Seconds per clip</label><input id="length" type="number" min="10" max="90" inputmode="numeric"></div>
       </div>
-      <label for="framing">Vertical framing</label>
-      <select id="framing"><option value="center">Center crop</option><option value="blur">Whole frame on a blurred background</option><option value="face">Follow the face</option></select>
+      <label for="framing">Vertical layout</label>
+      <select id="framing"><option value="stack">Face on top, gameplay below</option><option value="blur">Whole frame on a blurred background</option><option value="face">Follow the face</option><option value="center">Center crop</option></select>
+      <p class="hint">“Face on top” finds the face in the video. If it can’t, it uses the blurred layout.</p>
+      <div class="row">
+        <div><label for="height">Source quality</label>
+          <select id="height"><option value="720">720p</option><option value="1080">1080p</option><option value="1440">1440p</option></select></div>
+        <div><label for="ai">AI moment picking</label>
+          <select id="ai"><option value="on">On</option><option value="off">Off</option></select></div>
+      </div>
+      <div class="row">
+        <div><label for="broll">Stock B-roll</label>
+          <select id="broll"><option value="off">Off</option><option value="auto">Auto</option></select></div>
+        <div><label for="transitions">Transitions</label>
+          <select id="transitions"><option value="off">Off</option><option value="fade">Fade</option></select></div>
+      </div>
       <div class="row">
         <div><label for="captions">Captions</label>
           <select id="captions"><option value="karaoke">Word by word</option><option value="classic">Classic lines</option><option value="off">None</option></select></div>
@@ -210,7 +223,7 @@ a{color:var(--accent)}
 var KEY="clipdesk.v1";
 var DEFAULTS={owner:"cooldolphine",repo:"auto-clipper",branch:"main",sched:"cooldolphine/clipper-app",token:"",mode:"links",urls:"",
   channels:["https://www.youtube.com/@BeastBoyShub","https://www.youtube.com/@TechnoGamerzOfficial","https://www.youtube.com/@liveinsaan","https://www.youtube.com/@CarryisLive","https://www.youtube.com/@Mythpat"].join("\n"),
-  topics:"",videos:1,num:5,length:40,language:"hi",model:"small",framing:"center",captions:"karaoke",hook:"auto"};
+  topics:"",videos:1,num:5,length:40,language:"hi",model:"small",framing:"stack",captions:"karaoke",hook:"auto",height:"1080",ai:"on",broll:"off",transitions:"off"};
 var S=load();
 function load(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){return Object.assign({},DEFAULTS);}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
@@ -291,7 +304,7 @@ function show(tab){
 document.querySelectorAll("nav button").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.tab);});});
 
 /* ---------- form ---------- */
-var fields=["urls","channels","topics","videos","num","length","language","model","framing","captions","hook"];
+var fields=["urls","channels","topics","videos","num","length","language","model","framing","captions","hook","height","ai","broll","transitions"];
 function fill(){fields.forEach(function(f){$(f).value=S[f];});setMode(S.mode);
   ["owner","repo","branch","sched","token"].forEach(function(f){$(f).value=S[f];});}
 fields.forEach(function(f){$(f).addEventListener("input",function(){S[f]=$(f).value;save();});});
@@ -303,7 +316,7 @@ $("m-topics").addEventListener("click",function(){setMode("topics");});
 
 $("start").addEventListener("click",async function(){
   var btn=$("start");
-  var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model,framing:S.framing,captions:S.captions,hook:S.hook};
+  var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model,framing:S.framing,captions:S.captions,hook:S.hook,height:String(S.height||1080),ai:S.ai,broll:S.broll,transitions:S.transitions};
   if(S.mode==="links"){
     var urls=S.urls.split(/[\s,]+/).filter(Boolean);
     if(!urls.length) return toast("Paste at least one video link.");
@@ -389,10 +402,11 @@ async function openClips(run){
     assets.map(function(a){
       var m=meta[a.name]||{},key=run.run_number+"/"+a.name,dur=m.source_duration;
       clipIndex[key]={run:run.run_number,file:a.name,meta:m};
+      var vir=m.virality!=null?'<div class="meta"><b>Virality '+m.virality+'</b>'+(m.reason?' · '+esc(m.reason):'')+'</div>':'';
       var strip=dur?'<div class="strip" aria-hidden="true"><i style="left:'+(m.start/dur*100).toFixed(2)+'%;width:'+(((m.end-m.start)/dur)*100).toFixed(2)+'%"></i></div>':'';
       return '<div class="panel run" data-url="'+esc(a.browser_download_url)+'" data-name="'+esc(a.name)+'" data-key="'+esc(key)+'">'+
         '<div class="name">'+esc(m.source_title||a.name)+'</div>'+
-        '<div class="meta">'+esc(m.channel||"")+(m.channel?" · ":"")+(m.start!=null?mmss(m.start)+"–"+mmss(m.end)+(dur?" of "+mmss(dur):"")+" · ":"")+(a.size/1048576).toFixed(1)+' MB</div>'+strip+
+        '<div class="meta">'+esc(m.channel||"")+(m.channel?" · ":"")+(m.start!=null?mmss(m.start)+"–"+mmss(m.end)+(dur?" of "+mmss(dur):"")+" · ":"")+(a.size/1048576).toFixed(1)+' MB</div>'+vir+strip+
         '<div class="actions"><button class="small" data-play>Play</button><button class="small" data-dl>Download</button>'+
         '<button class="small" data-sched>Schedule post</button></div>'+
         '<div data-slot></div></div>';
@@ -431,7 +445,9 @@ function cleanTitle(t,topics){
 function fit(pre,base,suf){var room=100-pre.length-suf.length;if(base.length>room) base=base.slice(0,Math.max(10,room-1)).trim()+"…";return pre+base+suf;}
 function titleSuggestions(m){
   var base=cleanTitle(m.source_title,m.topics),ch=String(m.channel||"").trim();
-  return [fit("",base," | Best Moment #Shorts"),fit("This Moment in ",base," Is Wild #Shorts"),fit("",ch?ch+" - "+base:base," | Funniest Part #Shorts")];
+  var out=[fit("",base," | Best Moment #Shorts"),fit("This Moment in ",base," Is Wild #Shorts"),fit("",ch?ch+" - "+base:base," | Funniest Part #Shorts")];
+  if(m.ai_title) out.unshift(fit("",String(m.ai_title)," #Shorts"));
+  return out;
 }
 function words(t){var seen={},out=[];String(t).split(/[^A-Za-z0-9]+/).forEach(function(w){
   var k=w.toLowerCase();if(w.length>2&&!STOP.has(k)&&!seen[k]){seen[k]=1;out.push(w);}});return out.slice(0,8);}
@@ -528,7 +544,8 @@ $("p-save").addEventListener("click",async function(){
       var c=postCtx.clip;
       var item={id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2),
         platform:"youtube",repo:S.owner+"/"+S.repo,run:c.run,file:c.file,title:title,description:desc,tags:tags,when:when,rev:1,
-        created:new Date().toISOString(),source_title:(c.meta&&c.meta.source_title)||""};
+        created:new Date().toISOString(),source_title:(c.meta&&c.meta.source_title)||"",
+        meta:(function(m){return {virality:m.virality,reason:m.reason,hook:m.hook,ai_title:m.ai_title,channel:m.channel,source_title:m.source_title,topics:m.topics||[],layout:m.layout};})(c.meta||{})};
       await updateQueue(function(q){q.push(item);return q;});
     }
     $("post-sheet").hidden=true;
@@ -541,6 +558,7 @@ $("p-save").addEventListener("click",async function(){
 
 /* ---------- posts ---------- */
 var postsCache={queue:[],status:{}};
+function num(n){n=Number(n)||0;return n>=1e6?(n/1e6).toFixed(1)+"M":n>=1e3?(n/1e3).toFixed(1)+"K":String(n);}
 function fmt(iso){return new Date(iso).toLocaleString([],{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});}
 function postState(it,st){
   if(st&&st.state==="uploaded"){
@@ -553,7 +571,8 @@ function postState(it,st){
 async function loadPosts(){
   var box=$("posts");box.innerHTML='<div class="empty">Loading…</div>';
   try{
-    var res=await Promise.all([readFile("queue.json",[]),readFile("status.json",{})]);
+    var res=await Promise.all([readFile("queue.json",[]),readFile("status.json",{}),readFile("performance.json",{videos:[]})]);
+    var perf={};((res[2].data&&res[2].data.videos)||[]).forEach(function(v){perf[v.video_id]=v;});
     postsCache.queue=Array.isArray(res[0].data)?res[0].data:[];postsCache.status=res[1].data||{};
     var list=postsCache.queue.slice().sort(function(a,b){return (a.when?new Date(a.when).getTime():0)-(b.when?new Date(b.when).getTime():0);});
     if(!list.length){box.innerHTML='<div class="empty">Nothing scheduled yet. Open a run’s clips and tap Schedule post.</div>';return;}
@@ -562,6 +581,7 @@ async function loadPosts(){
       return '<div class="panel run" data-id="'+esc(it.id)+'"><div class="top"><div class="name">'+esc(it.title)+'</div><span class="badge '+s.c+'">'+esc(s.t)+'</span></div>'+
         '<div class="meta">YouTube · '+(it.when?fmt(it.when):"as soon as it uploads")+'</div>'+
         (s.note?'<div class="meta">'+esc(s.note)+'</div>':'')+
+        (up&&perf[st.video_id]&&perf[st.video_id].views!=null?'<div class="meta">'+num(perf[st.video_id].views)+' views · '+num(perf[st.video_id].likes)+' likes · '+num(perf[st.video_id].comments)+' comments</div>':'')+
         '<div class="actions">'+
         (up&&st.url?'<a class="btn small" href="'+esc(st.url)+'" target="_blank" rel="noopener">Open on YouTube</a>':'')+
         (!up?'<button class="small" data-edit>Edit</button>':'')+
