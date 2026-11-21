@@ -1,4 +1,45 @@
 {
- "updated_at": "2026-11-21T17:36:47.084899+00:00",
- "videos": []
+ "updated_at": "2026-11-21T20:53:45.656706+00:00",
+ "videos": [
+  {
+   "video_id": "De8UVn-8maM",
+   "title": "Live Insaan parties in a club in GTA VI while worrying about stream copyright strikes. #Shorts",
+   "meta": {
+    "virality": 90,
+    "reason": "Live Insaan parties in a club while worrying about stream copyright strikes.",
+    "hook": "GTA CLUB DANCE FAIL",
+    "ai_title": "Live Insaan Nightclub Panic In GTA",
+    "channel": "Live Insaan",
+    "source_title": "GTA 6 Launch Day First Reaction🛑",
+    "topics": [],
+    "layout": "stack"
+   },
+   "published_at": "2026-11-23T09:36:00.000Z"
+  },
+  {
+   "video_id": "K7v7ZAUsuNM",
+   "title": "This Moment in Carryminati Plays GTA VI Is Wild #Shorts",
+   "meta": {
+    "channel": "CarryisLive",
+    "source_title": "CARRYMINATI PLAYS GTA VI | NO PROMOTIONS",
+    "topics": []
+   },
+   "published_at": "2026-11-22T09:30:00.000Z"
+  },
+  {
+   "video_id": "eGsqoKpZTNI",
+   "title": "Pressing the Wrong Button in GTA 6 Fights #Shorts",
+   "meta": {
+    "virality": 91,
+    "reason": "Hilarious combat chaos caused by spamming the wrong attack buttons in a street brawl.",
+    "hook": "WRONG BUTTON COMBAT FAIL!",
+    "ai_title": "Pressing the Wrong Button in GTA 6 Fights",
+    "channel": "BeastBoyShub",
+    "source_title": "TIME TO CHEAT ON LUCIA -  GTA 6 GAMEPLAY Part 2",
+    "topics": [],
+    "layout": "stack"
+   },
+   "published_at": "2026-11-21T19:21:21.943445+00:00"
+  }
+ ]
 }
