@@ -64,6 +64,8 @@ video{width:100%;max-height:70vh;border-radius:10px;background:#000;margin-top:4
 #post-sheet{z-index:12}
 .sheet[hidden]{display:none}
 .sheet header{position:sticky;top:0;background:var(--bg);display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);z-index:1}
+.bar{height:10px;border-radius:5px;background:var(--track);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:5px}
 .empty{text-align:center;color:var(--muted);padding:36px 8px}
 .soon{opacity:.6}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0));max-width:608px;margin:0 auto;background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:12px;z-index:30;box-shadow:0 6px 24px rgba(0,0,0,.25)}
@@ -87,7 +89,7 @@ a{color:var(--accent)}
     <div id="box-links">
       <label for="urls">Video links</label>
       <textarea id="urls" placeholder="https://www.youtube.com/watch?v=…" inputmode="url" autocapitalize="off" spellcheck="false"></textarea>
-      <p class="hint">One link per line. Each video is clipped even if you clipped it before.</p>
+      <p class="hint">One link per line. Works with YouTube, Twitch and Kick videos, and with direct links to a video file (for example a shared Google Drive or Dropbox link). Live streams must have ended.</p>
     </div>
     <div id="box-topics" hidden>
       <label for="topics">Topics</label>
@@ -119,7 +121,7 @@ a{color:var(--accent)}
         <div><label for="broll">Stock B-roll</label>
           <select id="broll"><option value="off">Off</option><option value="auto">Auto</option></select></div>
         <div><label for="transitions">Transitions</label>
-          <select id="transitions"><option value="off">Off</option><option value="fade">Fade</option></select></div>
+          <select id="transitions"><option value="off">Off</option><option value="fade">Fade</option><option value="flash">Flash</option><option value="slide">Slide</option><option value="wipe">Wipe</option><option value="zoom">Zoom</option><option value="circle">Circle</option><option value="mix">Mix of all</option></select></div>
       </div>
       <div class="row">
         <div><label for="captions">Captions</label>
@@ -363,14 +365,29 @@ async function loadRuns(){
       var s=status(r),busy=r.status!=="completed";
       return '<div class="panel run"><div class="top"><div class="name">'+esc(r.display_title||("Run "+r.run_number))+'</div><span class="badge '+s.c+'">'+s.t+'</span></div>'+
         '<div class="meta">Run '+r.run_number+' · '+(busy?"started "+elapsed(r.run_started_at||r.created_at)+" ago":ago(r.updated_at))+'</div>'+
+        (r.status==="in_progress"?'<div data-prog="'+r.id+'" data-sha="'+esc(r.head_sha)+'"><div class="meta">Starting up…</div></div>':'')+
         '<div class="actions">'+
         (r.conclusion==="success"?'<button class="small" data-clips="'+r.id+'">Open clips</button>':'')+
         (busy?'<button class="small" data-cancel="'+r.id+'">Cancel</button>':'')+
         '<a class="btn small" href="'+esc(r.html_url)+'" target="_blank" rel="noopener">Log on GitHub</a></div></div>';
     }).join("");
+    showProgress();
     if(lastRuns.some(function(r){return r.status!=="completed";})){
-      clearTimeout(pollTimer);pollTimer=setTimeout(function(){if(!$("tab-runs").hidden) loadRuns();},20000);}
+      clearTimeout(pollTimer);pollTimer=setTimeout(function(){if(!$("tab-runs").hidden) loadRuns();},8000);}
   }catch(e){box.innerHTML='<div class="empty">'+esc(e.message)+'</div>';}
+}
+async function showProgress(){
+  var els=document.querySelectorAll("#runs [data-prog]");
+  for(var i=0;i<els.length;i++){
+    var el=els[i];
+    try{
+      var d=await getJSON(repoPath()+"/commits/"+el.dataset.sha+"/status?per_page=100");
+      var ctx="progress-"+el.dataset.prog,st=(d.statuses||[]).find(function(s){return s.context===ctx;});
+      if(!st) continue;
+      var parts=String(st.description||"").split("|"),pct=Math.max(0,Math.min(100,parseInt(parts[0],10)||0)),txt=parts.slice(1).join("|");
+      el.innerHTML='<div class="bar" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"><i style="width:'+pct+'%"></i></div><div class="meta">'+pct+'% · '+esc(txt)+'</div>';
+    }catch(e){}
+  }
 }
 $("refresh").addEventListener("click",loadRuns);
 $("runs").addEventListener("click",async function(ev){
@@ -402,7 +419,7 @@ async function openClips(run){
     assets.map(function(a){
       var m=meta[a.name]||{},key=run.run_number+"/"+a.name,dur=m.source_duration;
       clipIndex[key]={run:run.run_number,file:a.name,meta:m};
-      var vir=m.virality!=null?'<div class="meta"><b>Virality '+m.virality+'</b>'+(m.reason?' · '+esc(m.reason):'')+'</div>':'';
+      var vir=m.virality!=null?'<div class="meta"><b>Virality '+m.virality+'</b>'+(m.reason?' · '+esc(m.reason):'')+'</div>'+(m.visual?'<div class="meta">On screen: '+esc(m.visual)+'</div>':''):'';
       var strip=dur?'<div class="strip" aria-hidden="true"><i style="left:'+(m.start/dur*100).toFixed(2)+'%;width:'+(((m.end-m.start)/dur)*100).toFixed(2)+'%"></i></div>':'';
       return '<div class="panel run" data-url="'+esc(a.browser_download_url)+'" data-name="'+esc(a.name)+'" data-key="'+esc(key)+'">'+
         '<div class="name">'+esc(m.source_title||a.name)+'</div>'+
