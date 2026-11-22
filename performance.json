@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-22T17:17:39.519966+00:00",
+ "updated_at": "2026-11-22T20:37:22.353651+00:00",
  "videos": [
   {
    "video_id": "P5j761vPde8",
@@ -44,7 +44,11 @@
     "topics": [],
     "layout": "face"
    },
-   "published_at": "2026-11-22T18:28:00.000Z"
+   "published_at": "2026-11-22T18:28:00.000Z",
+   "views": 67,
+   "likes": 1,
+   "comments": 0,
+   "checked_at": "2026-11-22T20:37:22.353611+00:00"
   },
   {
    "video_id": "K7v7ZAUsuNM",
@@ -58,7 +62,7 @@
    "views": 5,
    "likes": 1,
    "comments": 0,
-   "checked_at": "2026-11-22T17:17:39.519939+00:00"
+   "checked_at": "2026-11-22T20:37:22.353635+00:00"
   },
   {
    "video_id": "eGsqoKpZTNI",
