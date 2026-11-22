@@ -101,5 +101,48 @@
    "topics": [],
    "layout": "stack"
   }
+ },
+ {
+  "id": "dd763fc4-e7e3-4ada-b6d0-ce572a3a2646",
+  "platform": "youtube",
+  "repo": "cooldolphine/auto-clipper",
+  "run": 22,
+  "file": "6qkNJmNr1OE_clip_02.mp4",
+  "title": "Nischay ka birthday celebration with family | Best Moment #Shorts",
+  "description": "Nischay ka birthday celebration with family | Best Moment\n\n\n\n\nWatch the full video: https://youtu.be/6qkNJmNr1OE?t=314s\nOriginal video by Dimple Malhan Vlogs\n\n#Nischay #birthday #Shorts #Gaming #liveinsaan #ruchik #dimplemalhan vlogs",
+  "tags": [
+   "Nischay",
+   "birthday",
+   "celebration",
+   "family",
+   "Dimple Malhan Vlogs",
+   "Shorts",
+   "Gaming",
+   "Gameplay",
+   "Funny moments",
+   "Highlights",
+   "trigger insaan",
+   "fukra insaan",
+   "live insaan",
+   "dimple",
+   "ruchika rathor",
+   "ruchika",
+   "prena",
+   "abhishek"
+  ],
+  "when": "2026-11-22T18:28:00.000Z",
+  "rev": 1,
+  "created": "2026-11-22T03:33:19.749Z",
+  "source_title": "Nischay ka birthday celebration with family",
+  "meta": {
+   "virality": 83,
+   "reason": "Funny gift guessing game and Nischay's hilarious reaction to fan messages.",
+   "hook": "UNBOXING BIRTHDAY GIFTS!",
+   "ai_title": "Nischay Unboxes Birthday Gifts & Reads Fan Messages",
+   "channel": "Dimple Malhan Vlogs",
+   "source_title": "Nischay ka birthday celebration with family",
+   "topics": [],
+   "layout": "face"
+  }
  }
 ]
