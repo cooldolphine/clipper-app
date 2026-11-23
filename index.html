@@ -118,6 +118,18 @@ a{color:var(--accent)}
           <select id="ai"><option value="on">On</option><option value="off">Off</option></select></div>
       </div>
       <div class="row">
+        <div><label for="director">AI director</label>
+          <select id="director"><option value="on">On</option><option value="off">Off</option></select></div>
+        <div><label for="punch">Zoom and slow motion</label>
+          <select id="punch"><option value="on">On</option><option value="off">Off</option></select></div>
+      </div>
+      <div class="row">
+        <div><label for="cutsilence">Cut out silence</label>
+          <select id="cutsilence"><option value="on">On</option><option value="off">Off</option></select></div>
+        <div><label for="emoji">Emoji and highlights</label>
+          <select id="emoji"><option value="on">On</option><option value="off">Off</option></select></div>
+      </div>
+      <div class="row">
         <div><label for="broll">Stock B-roll</label>
           <select id="broll"><option value="off">Off</option><option value="auto">Auto</option></select></div>
         <div><label for="transitions">Transitions</label>
@@ -225,7 +237,7 @@ a{color:var(--accent)}
 var KEY="clipdesk.v1";
 var DEFAULTS={owner:"cooldolphine",repo:"auto-clipper",branch:"main",sched:"cooldolphine/clipper-app",token:"",mode:"links",urls:"",
   channels:["https://www.youtube.com/@BeastBoyShub","https://www.youtube.com/@TechnoGamerzOfficial","https://www.youtube.com/@liveinsaan","https://www.youtube.com/@CarryisLive","https://www.youtube.com/@Mythpat"].join("\n"),
-  topics:"",videos:1,num:5,length:40,language:"hi",model:"small",framing:"stack",captions:"karaoke",hook:"auto",height:"1080",ai:"on",broll:"off",transitions:"off"};
+  topics:"",videos:1,num:5,length:40,language:"hi",model:"small",framing:"stack",captions:"karaoke",hook:"auto",height:"1080",ai:"on",broll:"off",transitions:"off",director:"on",punch:"on",cutsilence:"on",emoji:"on"};
 var S=load();
 function load(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){return Object.assign({},DEFAULTS);}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
@@ -306,7 +318,7 @@ function show(tab){
 document.querySelectorAll("nav button").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.tab);});});
 
 /* ---------- form ---------- */
-var fields=["urls","channels","topics","videos","num","length","language","model","framing","captions","hook","height","ai","broll","transitions"];
+var fields=["urls","channels","topics","videos","num","length","language","model","framing","captions","hook","height","ai","broll","transitions","director","punch","cutsilence","emoji"];
 function fill(){fields.forEach(function(f){$(f).value=S[f];});setMode(S.mode);
   ["owner","repo","branch","sched","token"].forEach(function(f){$(f).value=S[f];});}
 fields.forEach(function(f){$(f).addEventListener("input",function(){S[f]=$(f).value;save();});});
@@ -318,7 +330,7 @@ $("m-topics").addEventListener("click",function(){setMode("topics");});
 
 $("start").addEventListener("click",async function(){
   var btn=$("start");
-  var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model,framing:S.framing,captions:S.captions,hook:S.hook,height:String(S.height||1080),ai:S.ai,broll:S.broll,transitions:S.transitions};
+  var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model,framing:S.framing,captions:S.captions,hook:S.hook,height:String(S.height||1080),ai:S.ai,broll:S.broll,transitions:S.transitions,director:S.director,punch:S.punch,cut_silence:S.cutsilence,emoji:S.emoji};
   if(S.mode==="links"){
     var urls=S.urls.split(/[\s,]+/).filter(Boolean);
     if(!urls.length) return toast("Paste at least one video link.");
@@ -367,7 +379,7 @@ async function loadRuns(){
         '<div class="meta">Run '+r.run_number+' · '+(busy?"started "+elapsed(r.run_started_at||r.created_at)+" ago":ago(r.updated_at))+'</div>'+
         (r.status==="in_progress"?'<div data-prog="'+r.id+'" data-sha="'+esc(r.head_sha)+'"><div class="meta">Starting up…</div></div>':'')+
         '<div class="actions">'+
-        (r.conclusion==="success"?'<button class="small" data-clips="'+r.id+'">Open clips</button>':'')+
+        (r.status==="completed"&&r.conclusion!=="cancelled"?'<button class="small" data-clips="'+r.id+'">Open clips</button>':'')+
         (busy?'<button class="small" data-cancel="'+r.id+'">Cancel</button>':'')+
         '<a class="btn small" href="'+esc(r.html_url)+'" target="_blank" rel="noopener">Log on GitHub</a></div></div>';
     }).join("");
@@ -419,7 +431,8 @@ async function openClips(run){
     assets.map(function(a){
       var m=meta[a.name]||{},key=run.run_number+"/"+a.name,dur=m.source_duration;
       clipIndex[key]={run:run.run_number,file:a.name,meta:m};
-      var vir=m.virality!=null?'<div class="meta"><b>Virality '+m.virality+'</b>'+(m.reason?' · '+esc(m.reason):'')+'</div>'+(m.visual?'<div class="meta">On screen: '+esc(m.visual)+'</div>':''):'';
+      var eds=m.edits?[m.edits.cuts?m.edits.cuts+" silent gap"+(m.edits.cuts>1?"s":"")+" cut":"",m.edits.slowmo?"slow motion":"",m.edits.zoom?"zoom":"",m.edits.emoji?m.edits.emoji+" emoji":"",m.edits.highlighted?m.edits.highlighted+" highlighted words":""].filter(Boolean).join(" · "):"";
+      var vir=(m.length?'<div class="meta">'+Math.round(m.length)+' s'+(m.game?' · '+esc(m.game):'')+(eds?' · '+esc(eds):'')+'</div>':'')+(m.virality!=null?'<div class="meta"><b>Virality '+m.virality+'</b>'+(m.reason?' · '+esc(m.reason):'')+'</div>'+(m.visual?'<div class="meta">On screen: '+esc(m.visual)+'</div>':''):'');
       var strip=dur?'<div class="strip" aria-hidden="true"><i style="left:'+(m.start/dur*100).toFixed(2)+'%;width:'+(((m.end-m.start)/dur)*100).toFixed(2)+'%"></i></div>':'';
       return '<div class="panel run" data-url="'+esc(a.browser_download_url)+'" data-name="'+esc(a.name)+'" data-key="'+esc(key)+'">'+
         '<div class="name">'+esc(m.source_title||a.name)+'</div>'+
@@ -463,7 +476,8 @@ function fit(pre,base,suf){var room=100-pre.length-suf.length;if(base.length>roo
 function titleSuggestions(m){
   var base=cleanTitle(m.source_title,m.topics),ch=String(m.channel||"").trim();
   var out=[fit("",base," | Best Moment #Shorts"),fit("This Moment in ",base," Is Wild #Shorts"),fit("",ch?ch+" - "+base:base," | Funniest Part #Shorts")];
-  if(m.ai_title) out.unshift(fit("",String(m.ai_title)," #Shorts"));
+  var ait=(m.ai_titles&&m.ai_titles.length)?m.ai_titles:(m.ai_title?[m.ai_title]:[]);
+  ait.slice().reverse().forEach(function(t){out.unshift(fit("",String(t)," #Shorts"));});
   return out;
 }
 function words(t){var seen={},out=[];String(t).split(/[^A-Za-z0-9]+/).forEach(function(w){
@@ -471,6 +485,8 @@ function words(t){var seen={},out=[];String(t).split(/[^A-Za-z0-9]+/).forEach(fu
 function tagsLen(list){var n=0;list.forEach(function(t){n+=t.length+(t.indexOf(" ")>=0?2:0)+1;});return n;}
 function draftTags(m){
   var list=[];
+  (m.ai_tags||[]).forEach(function(t){list.push(String(t));});
+  if(m.game) list.push(m.game);
   (m.topics||[]).forEach(function(t){list.push(cap(t));});
   words(cleanTitle(m.source_title,m.topics)).forEach(function(w){list.push(w);});
   if(m.channel) list.push(m.channel);
@@ -485,11 +501,11 @@ function sourceLink(m){
 }
 function draftDesc(m,title,tags){
   var hook=title.replace(/\s*#Shorts\s*$/i,"").trim(),link=sourceLink(m);
-  var pool=(m.topics||[]).map(cap).concat(tags).filter(function(t){return t!=="Shorts"&&t!=="Gaming"&&t!=="Gameplay";});
+  var pool=(m.game?[m.game]:[]).concat((m.topics||[]).map(cap)).concat(tags).filter(function(t){return t!=="Shorts"&&t!=="Gaming"&&t!=="Gameplay";});
   var seen={},hs=[];
   pool.forEach(function(t){var h="#"+t.replace(/[^A-Za-z0-9]/g,""),k=h.toLowerCase();if(h.length>2&&!seen[k]&&hs.length<(m.topics&&m.topics.length>=2?m.topics.length:2)){seen[k]=1;hs.push(h);}});
   hs=hs.concat(["#Shorts","#Gaming"]);
-  var lines=[hook,""];
+  var lines=[m.ai_description?String(m.ai_description):hook,""];
   if(link) lines.push("Watch the full video: "+link);
   if(m.channel) lines.push("Original video by "+m.channel);
   lines.push("");lines.push(hs.join(" "));
@@ -562,7 +578,7 @@ $("p-save").addEventListener("click",async function(){
       var item={id:(window.crypto&&crypto.randomUUID)?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2),
         platform:"youtube",repo:S.owner+"/"+S.repo,run:c.run,file:c.file,title:title,description:desc,tags:tags,when:when,rev:1,
         created:new Date().toISOString(),source_title:(c.meta&&c.meta.source_title)||"",
-        meta:(function(m){return {virality:m.virality,reason:m.reason,hook:m.hook,ai_title:m.ai_title,channel:m.channel,source_title:m.source_title,topics:m.topics||[],layout:m.layout};})(c.meta||{})};
+        meta:(function(m){return {virality:m.virality,reason:m.reason,hook:m.hook,ai_title:m.ai_title,channel:m.channel,source_title:m.source_title,topics:m.topics||[],layout:m.layout,game:m.game};})(c.meta||{})};
       await updateQueue(function(q){q.push(item);return q;});
     }
     $("post-sheet").hidden=true;
