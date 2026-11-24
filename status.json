@@ -133,5 +133,26 @@
    "topics": [],
    "layout": "stack"
   }
+ },
+ "74a0e8d2-e7bf-4624-aa2d-e4fa9a1c93ed": {
+  "state": "uploaded",
+  "video_id": "-YRIgG4VgWk",
+  "url": "https://youtu.be/-YRIgG4VgWk",
+  "scheduled": true,
+  "publish_at": "2026-11-25T10:30:00.000Z",
+  "rev": 1,
+  "uploaded_at": "2026-11-24T07:43:33.140008+00:00",
+  "title": "He Jumped Out Of Moving Truck! #gtavi #Shorts #gta",
+  "meta": {
+   "virality": 85,
+   "reason": "The AI partner suddenly leaps out of a moving escape truck to fight enemies on foot.",
+   "hook": "WHY LEAVE THE TRUCK",
+   "ai_title": "Surviving the craziest ambush in Vice City!",
+   "channel": "Live Insaan",
+   "source_title": "GTA 6 🛑 Welcome to Vice City (Day 1)",
+   "topics": [],
+   "layout": "stack",
+   "game": "GTA 6"
+  }
  }
 }
