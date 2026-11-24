@@ -113,5 +113,25 @@
    "topics": [],
    "layout": "face"
   }
+ },
+ "2f30cdfd-ce5d-4b6a-afb6-f3ad38b47101": {
+  "state": "uploaded",
+  "video_id": "HfwUzI3rPq4",
+  "url": "https://youtu.be/HfwUzI3rPq4",
+  "scheduled": true,
+  "publish_at": "2026-11-25T00:02:00.000Z",
+  "rev": 1,
+  "uploaded_at": "2026-11-24T04:45:26.485657+00:00",
+  "title": "Time to Cheat on Lucia in GTA 6! #Shorts",
+  "meta": {
+   "virality": 86,
+   "reason": "Matches the main video hook title as Shub jokes about cheating on Lucia with Mandi.",
+   "hook": "CHEATING ON LUCIA?!",
+   "ai_title": "Time to Cheat on Lucia in GTA 6!",
+   "channel": "BeastBoyShub",
+   "source_title": "TIME TO CHEAT ON LUCIA -  GTA 6 GAMEPLAY Part 2",
+   "topics": [],
+   "layout": "stack"
+  }
  }
 }
