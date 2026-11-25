@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-24T22:50:05.603099+00:00",
+ "updated_at": "2026-11-25T02:02:27.181515+00:00",
  "videos": [
   {
    "video_id": "-YRIgG4VgWk",
@@ -30,7 +30,11 @@
     "topics": [],
     "layout": "stack"
    },
-   "published_at": "2026-11-25T00:02:00.000Z"
+   "published_at": "2026-11-25T00:02:00.000Z",
+   "views": 9,
+   "likes": 1,
+   "comments": 0,
+   "checked_at": "2026-11-25T02:02:27.181467+00:00"
   },
   {
    "video_id": "Cf7moQvcrmE",
@@ -46,10 +50,10 @@
     "layout": "face"
    },
    "published_at": "2026-11-24T04:30:00.000Z",
-   "views": 1259,
-   "likes": 24,
+   "views": 1260,
+   "likes": 25,
    "comments": 0,
-   "checked_at": "2026-11-24T22:50:05.603058+00:00"
+   "checked_at": "2026-11-25T02:02:27.181486+00:00"
   },
   {
    "video_id": "P5j761vPde8",
@@ -65,10 +69,10 @@
     "layout": "face"
    },
    "published_at": "2026-11-23T17:26:00.000Z",
-   "views": 2724,
+   "views": 2727,
    "likes": 63,
    "comments": 0,
-   "checked_at": "2026-11-24T22:50:05.603079+00:00"
+   "checked_at": "2026-11-25T02:02:27.181492+00:00"
   },
   {
    "video_id": "De8UVn-8maM",
@@ -87,7 +91,7 @@
    "views": 28,
    "likes": 2,
    "comments": 0,
-   "checked_at": "2026-11-24T22:50:05.603082+00:00"
+   "checked_at": "2026-11-25T02:02:27.181496+00:00"
   },
   {
    "video_id": "AO21yzdt8qs",
@@ -106,7 +110,7 @@
    "views": 1156,
    "likes": 13,
    "comments": 0,
-   "checked_at": "2026-11-24T22:50:05.603085+00:00"
+   "checked_at": "2026-11-25T02:02:27.181500+00:00"
   },
   {
    "video_id": "K7v7ZAUsuNM",
@@ -120,7 +124,7 @@
    "views": 7,
    "likes": 1,
    "comments": 0,
-   "checked_at": "2026-11-24T22:50:05.603088+00:00"
+   "checked_at": "2026-11-25T02:02:27.181503+00:00"
   },
   {
    "video_id": "eGsqoKpZTNI",
