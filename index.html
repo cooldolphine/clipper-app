@@ -110,7 +110,9 @@ a{color:var(--accent)}
       </div>
       <label for="framing">Vertical layout</label>
       <select id="framing"><option value="stack">Face on top, gameplay below</option><option value="blur">Whole frame on a blurred background</option><option value="face">Follow the face</option><option value="center">Center crop</option></select>
-      <p class="hint">“Face on top” finds the face in the video. If it can’t, it uses the blurred layout.</p>
+      <p class="hint">“Face on top” needs a streamer facecam. It is found automatically. If it picks the wrong spot, choose the corner below. With no facecam, the blurred layout is used.</p>
+      <label for="facecam">Facecam position</label>
+      <select id="facecam"><option value="auto">Find it automatically</option><option value="tl">Top left</option><option value="tr">Top right</option><option value="bl">Bottom left</option><option value="br">Bottom right</option><option value="none">There is no facecam</option></select>
       <div class="row">
         <div><label for="height">Source quality</label>
           <select id="height"><option value="720">720p</option><option value="1080">1080p</option><option value="1440">1440p</option></select></div>
@@ -237,7 +239,7 @@ a{color:var(--accent)}
 var KEY="clipdesk.v1";
 var DEFAULTS={owner:"cooldolphine",repo:"auto-clipper",branch:"main",sched:"cooldolphine/clipper-app",token:"",mode:"links",urls:"",
   channels:["https://www.youtube.com/@BeastBoyShub","https://www.youtube.com/@TechnoGamerzOfficial","https://www.youtube.com/@liveinsaan","https://www.youtube.com/@CarryisLive","https://www.youtube.com/@Mythpat"].join("\n"),
-  topics:"",videos:1,num:5,length:40,language:"hi",model:"small",framing:"stack",captions:"karaoke",hook:"auto",height:"1080",ai:"on",broll:"off",transitions:"off",director:"on",punch:"on",cutsilence:"on",emoji:"on"};
+  topics:"",videos:1,num:5,length:40,language:"hi",model:"small",framing:"stack",captions:"karaoke",hook:"auto",height:"1080",ai:"on",broll:"off",transitions:"off",director:"on",punch:"on",cutsilence:"on",emoji:"on",facecam:"auto"};
 var S=load();
 function load(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){return Object.assign({},DEFAULTS);}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
@@ -318,7 +320,7 @@ function show(tab){
 document.querySelectorAll("nav button").forEach(function(b){b.addEventListener("click",function(){show(b.dataset.tab);});});
 
 /* ---------- form ---------- */
-var fields=["urls","channels","topics","videos","num","length","language","model","framing","captions","hook","height","ai","broll","transitions","director","punch","cutsilence","emoji"];
+var fields=["urls","channels","topics","videos","num","length","language","model","framing","captions","hook","height","ai","broll","transitions","director","punch","cutsilence","emoji","facecam"];
 function fill(){fields.forEach(function(f){$(f).value=S[f];});setMode(S.mode);
   ["owner","repo","branch","sched","token"].forEach(function(f){$(f).value=S[f];});}
 fields.forEach(function(f){$(f).addEventListener("input",function(){S[f]=$(f).value;save();});});
@@ -330,7 +332,7 @@ $("m-topics").addEventListener("click",function(){setMode("topics");});
 
 $("start").addEventListener("click",async function(){
   var btn=$("start");
-  var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model,framing:S.framing,captions:S.captions,hook:S.hook,height:String(S.height||1080),ai:S.ai,broll:S.broll,transitions:S.transitions,director:S.director,punch:S.punch,cut_silence:S.cutsilence,emoji:S.emoji};
+  var inputs={num:String(S.num||5),length:String(S.length||40),language:S.language,model:S.model,framing:S.framing,captions:S.captions,hook:S.hook,height:String(S.height||1080),ai:S.ai,broll:S.broll,transitions:S.transitions,director:S.director,punch:S.punch,cut_silence:S.cutsilence,emoji:S.emoji,facecam:S.facecam};
   if(S.mode==="links"){
     var urls=S.urls.split(/[\s,]+/).filter(Boolean);
     if(!urls.length) return toast("Paste at least one video link.");
