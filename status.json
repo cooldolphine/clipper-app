@@ -154,5 +154,26 @@
    "layout": "stack",
    "game": "GTA 6"
   }
+ },
+ "1f39a4bf-8b4c-4ef1-a658-18a6683311c6": {
+  "state": "uploaded",
+  "video_id": "fUyugQ4VbnQ",
+  "url": "https://youtu.be/fUyugQ4VbnQ",
+  "scheduled": true,
+  "publish_at": "2026-11-26T10:50:00.000Z",
+  "rev": 1,
+  "uploaded_at": "2026-11-25T06:06:43.885172+00:00",
+  "title": "This Is How Boys Prepare For Sangeet! #Shorts",
+  "meta": {
+   "virality": 85,
+   "reason": "Hilarious unexpected boom dance moves by the guys during sangeet practice.",
+   "hook": "BOYS DANCE PRACTICE FAIL",
+   "ai_title": "Hilarious Pre-Sangeet Boys Banter",
+   "channel": "LitFleet",
+   "source_title": "LADIES SANGEET VLOG 😍❤️ | DANCE",
+   "topics": [],
+   "layout": "center",
+   "game": ""
+  }
  }
 }
