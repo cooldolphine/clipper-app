@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-25T09:25:10.646100+00:00",
+ "updated_at": "2026-11-25T12:47:25.369050+00:00",
  "videos": [
   {
    "video_id": "fUyugQ4VbnQ",
@@ -31,7 +31,11 @@
     "layout": "stack",
     "game": "GTA 6"
    },
-   "published_at": "2026-11-25T10:30:00.000Z"
+   "published_at": "2026-11-25T10:30:00.000Z",
+   "views": 35,
+   "likes": 2,
+   "comments": 0,
+   "checked_at": "2026-11-25T12:47:25.369003+00:00"
   },
   {
    "video_id": "HfwUzI3rPq4",
@@ -47,10 +51,10 @@
     "layout": "stack"
    },
    "published_at": "2026-11-25T00:02:00.000Z",
-   "views": 97,
-   "likes": 4,
+   "views": 206,
+   "likes": 5,
    "comments": 0,
-   "checked_at": "2026-11-25T09:25:10.646050+00:00"
+   "checked_at": "2026-11-25T12:47:25.369021+00:00"
   },
   {
    "video_id": "Cf7moQvcrmE",
@@ -66,10 +70,10 @@
     "layout": "face"
    },
    "published_at": "2026-11-24T04:30:00.000Z",
-   "views": 1361,
-   "likes": 29,
+   "views": 1425,
+   "likes": 33,
    "comments": 0,
-   "checked_at": "2026-11-25T09:25:10.646071+00:00"
+   "checked_at": "2026-11-25T12:47:25.369026+00:00"
   },
   {
    "video_id": "P5j761vPde8",
@@ -85,10 +89,10 @@
     "layout": "face"
    },
    "published_at": "2026-11-23T17:26:00.000Z",
-   "views": 2729,
+   "views": 2732,
    "likes": 63,
    "comments": 0,
-   "checked_at": "2026-11-25T09:25:10.646075+00:00"
+   "checked_at": "2026-11-25T12:47:25.369030+00:00"
   },
   {
    "video_id": "De8UVn-8maM",
@@ -107,7 +111,7 @@
    "views": 29,
    "likes": 2,
    "comments": 0,
-   "checked_at": "2026-11-25T09:25:10.646078+00:00"
+   "checked_at": "2026-11-25T12:47:25.369033+00:00"
   },
   {
    "video_id": "AO21yzdt8qs",
@@ -126,7 +130,7 @@
    "views": 1157,
    "likes": 13,
    "comments": 0,
-   "checked_at": "2026-11-25T09:25:10.646081+00:00"
+   "checked_at": "2026-11-25T12:47:25.369036+00:00"
   },
   {
    "video_id": "K7v7ZAUsuNM",
@@ -140,7 +144,7 @@
    "views": 8,
    "likes": 1,
    "comments": 0,
-   "checked_at": "2026-11-25T09:25:10.646084+00:00"
+   "checked_at": "2026-11-25T12:47:25.369038+00:00"
   },
   {
    "video_id": "eGsqoKpZTNI",
