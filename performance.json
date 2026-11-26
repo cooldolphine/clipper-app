@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-26T07:15:16.773384+00:00",
+ "updated_at": "2026-11-26T10:53:28.325718+00:00",
  "videos": [
   {
    "video_id": "fUyugQ4VbnQ",
@@ -15,7 +15,11 @@
     "layout": "center",
     "game": ""
    },
-   "published_at": "2026-11-26T10:50:00.000Z"
+   "published_at": "2026-11-26T10:50:00.000Z",
+   "views": 0,
+   "likes": 0,
+   "comments": 0,
+   "checked_at": "2026-11-26T10:53:28.325678+00:00"
   },
   {
    "video_id": "-YRIgG4VgWk",
@@ -32,10 +36,10 @@
     "game": "GTA 6"
    },
    "published_at": "2026-11-25T10:30:00.000Z",
-   "views": 419,
+   "views": 422,
    "likes": 6,
    "comments": 0,
-   "checked_at": "2026-11-26T07:15:16.773349+00:00"
+   "checked_at": "2026-11-26T10:53:28.325696+00:00"
   },
   {
    "video_id": "HfwUzI3rPq4",
@@ -51,10 +55,10 @@
     "layout": "stack"
    },
    "published_at": "2026-11-25T00:02:00.000Z",
-   "views": 436,
+   "views": 451,
    "likes": 5,
    "comments": 0,
-   "checked_at": "2026-11-26T07:15:16.773362+00:00"
+   "checked_at": "2026-11-26T10:53:28.325699+00:00"
   },
   {
    "video_id": "Cf7moQvcrmE",
@@ -70,10 +74,10 @@
     "layout": "face"
    },
    "published_at": "2026-11-24T04:30:00.000Z",
-   "views": 1775,
-   "likes": 45,
+   "views": 1976,
+   "likes": 46,
    "comments": 0,
-   "checked_at": "2026-11-26T07:15:16.773364+00:00"
+   "checked_at": "2026-11-26T10:53:28.325701+00:00"
   },
   {
    "video_id": "P5j761vPde8",
@@ -89,10 +93,10 @@
     "layout": "face"
    },
    "published_at": "2026-11-23T17:26:00.000Z",
-   "views": 2748,
+   "views": 2747,
    "likes": 63,
    "comments": 0,
-   "checked_at": "2026-11-26T07:15:16.773367+00:00"
+   "checked_at": "2026-11-26T10:53:28.325703+00:00"
   },
   {
    "video_id": "De8UVn-8maM",
@@ -111,7 +115,7 @@
    "views": 29,
    "likes": 2,
    "comments": 0,
-   "checked_at": "2026-11-26T07:15:16.773368+00:00"
+   "checked_at": "2026-11-26T10:53:28.325705+00:00"
   },
   {
    "video_id": "AO21yzdt8qs",
@@ -130,7 +134,7 @@
    "views": 1157,
    "likes": 13,
    "comments": 0,
-   "checked_at": "2026-11-26T07:15:16.773370+00:00"
+   "checked_at": "2026-11-26T10:53:28.325707+00:00"
   },
   {
    "video_id": "K7v7ZAUsuNM",
@@ -144,7 +148,7 @@
    "views": 8,
    "likes": 1,
    "comments": 0,
-   "checked_at": "2026-11-26T07:15:16.773372+00:00"
+   "checked_at": "2026-11-26T10:53:28.325708+00:00"
   },
   {
    "video_id": "eGsqoKpZTNI",
