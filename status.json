@@ -196,5 +196,26 @@
    "layout": "center",
    "game": ""
   }
+ },
+ "dcb96b62-e627-4f68-a350-45f2b4e5eb95": {
+  "state": "uploaded",
+  "video_id": "D0ZNRreYpyE",
+  "url": "https://youtu.be/D0ZNRreYpyE",
+  "scheduled": true,
+  "publish_at": "2026-11-27T15:00:00.000Z",
+  "rev": 1,
+  "uploaded_at": "2026-11-27T05:52:39.294029+00:00",
+  "title": "\"Bande Bula Do Shadi Mein!\" #gamerfleet 😭 #Shorts #wedding",
+  "meta": {
+   "virality": 92,
+   "reason": "Hilarious moment where someone seriously suggests calling outside backup thugs for a wedding shoe ritual fight.",
+   "hook": "CALL BACKUP FOR SHOES",
+   "ai_title": "Crazy Fight Breaks Out at Wedding Function!",
+   "channel": "Sourav Joshi Vlogs",
+   "source_title": "Shadi Mein Ladai Hogyi 😳",
+   "topics": [],
+   "layout": "blur",
+   "game": ""
+  }
  }
 }
