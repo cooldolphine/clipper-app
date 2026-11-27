@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-27T10:37:18.869697+00:00",
+ "updated_at": "2026-11-27T14:02:12.309519+00:00",
  "videos": [
   {
    "video_id": "cKfty_kAeNs",
@@ -47,7 +47,11 @@
     "layout": "center",
     "game": ""
    },
-   "published_at": "2026-11-27T11:53:00.000Z"
+   "published_at": "2026-11-27T11:53:00.000Z",
+   "views": 401,
+   "likes": 8,
+   "comments": 0,
+   "checked_at": "2026-11-27T14:02:12.309478+00:00"
   },
   {
    "video_id": "fUyugQ4VbnQ",
@@ -67,7 +71,7 @@
    "views": 1274,
    "likes": 9,
    "comments": 0,
-   "checked_at": "2026-11-27T10:37:18.869643+00:00"
+   "checked_at": "2026-11-27T14:02:12.309490+00:00"
   },
   {
    "video_id": "-YRIgG4VgWk",
@@ -87,7 +91,7 @@
    "views": 445,
    "likes": 7,
    "comments": 0,
-   "checked_at": "2026-11-27T10:37:18.869666+00:00"
+   "checked_at": "2026-11-27T14:02:12.309494+00:00"
   },
   {
    "video_id": "HfwUzI3rPq4",
@@ -103,10 +107,10 @@
     "layout": "stack"
    },
    "published_at": "2026-11-25T00:02:00.000Z",
-   "views": 459,
+   "views": 460,
    "likes": 5,
    "comments": 0,
-   "checked_at": "2026-11-27T10:37:18.869670+00:00"
+   "checked_at": "2026-11-27T14:02:12.309497+00:00"
   },
   {
    "video_id": "Cf7moQvcrmE",
@@ -122,10 +126,10 @@
     "layout": "face"
    },
    "published_at": "2026-11-24T04:30:00.000Z",
-   "views": 2328,
+   "views": 2362,
    "likes": 54,
    "comments": 0,
-   "checked_at": "2026-11-27T10:37:18.869673+00:00"
+   "checked_at": "2026-11-27T14:02:12.309500+00:00"
   },
   {
    "video_id": "P5j761vPde8",
@@ -141,10 +145,10 @@
     "layout": "face"
    },
    "published_at": "2026-11-23T17:26:00.000Z",
-   "views": 2881,
+   "views": 2888,
    "likes": 65,
    "comments": 0,
-   "checked_at": "2026-11-27T10:37:18.869676+00:00"
+   "checked_at": "2026-11-27T14:02:12.309502+00:00"
   },
   {
    "video_id": "De8UVn-8maM",
@@ -163,7 +167,7 @@
    "views": 30,
    "likes": 2,
    "comments": 0,
-   "checked_at": "2026-11-27T10:37:18.869678+00:00"
+   "checked_at": "2026-11-27T14:02:12.309505+00:00"
   },
   {
    "video_id": "AO21yzdt8qs",
@@ -182,7 +186,7 @@
    "views": 1167,
    "likes": 13,
    "comments": 0,
-   "checked_at": "2026-11-27T10:37:18.869681+00:00"
+   "checked_at": "2026-11-27T14:02:12.309507+00:00"
   },
   {
    "video_id": "K7v7ZAUsuNM",
@@ -196,7 +200,7 @@
    "views": 8,
    "likes": 1,
    "comments": 0,
-   "checked_at": "2026-11-27T10:37:18.869683+00:00"
+   "checked_at": "2026-11-27T14:02:12.309509+00:00"
   },
   {
    "video_id": "eGsqoKpZTNI",
