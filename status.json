@@ -238,5 +238,26 @@
    "layout": "blur",
    "game": ""
   }
+ },
+ "1d91ce5e-c02e-4525-a87f-ff78bcae966d": {
+  "state": "uploaded",
+  "video_id": "18Agfvj4rNs",
+  "url": "https://youtu.be/18Agfvj4rNs",
+  "scheduled": true,
+  "publish_at": "2026-11-28T10:30:00.000Z",
+  "rev": 1,
+  "uploaded_at": "2026-11-28T07:35:08.092290+00:00",
+  "title": "When Your Gym Bag Costs More Than Your Workout #Shorts",
+  "meta": {
+   "virality": 85,
+   "reason": "Abhishek gets roasted for his gym outfit and excuses by his sister.",
+   "hook": "ABHISHEK GYM OUTFIT FAIL",
+   "ai_title": "Hilarious Gym Routine Roasts",
+   "channel": "Dimple Malhan Vlogs",
+   "source_title": "Prerna, Nischay & Abhishek ki Childhood memories",
+   "topics": [],
+   "layout": "blur",
+   "game": ""
+  }
  }
 }
